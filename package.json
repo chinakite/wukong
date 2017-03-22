@@ -16,6 +16,7 @@
     "koa": "^2.1.0",
     "koa-favicon": "^2.0.0",
     "koa-router": "^7.0.1",
+    "nunjucks": "^3.0.0",
     "randexp": "^0.4.5",
     "random-js": "^1.0.8",
     "tracer": "^0.8.7"
