@@ -1,15 +1,23 @@
-const Koa     = require('koa');
-const router  = require('koa-router')();
-const favicon = require('koa-favicon');
-const logger  = require('tracer').colorConsole({level:'debug'});
+const Koa           = require('koa');
+const router        = require('koa-router')();
+const bodyParser    = require('koa-bodyparser');
+const favicon       = require('koa-favicon');
+const nunjucks      = require('nunjucks');
 
-const app     = new Koa();
+const logger        = require('tracer').colorConsole({level:'debug'});
+
+const staticFile    = require('./src/static.file');
+const templating    = require('./src/html.template');
 
 const config        = require('./wukong.config');
 const mapping       = require('./src/mapping/mapping');
 const dataset       = require('./src/dataset/dataset');
 const template      = require('./src/template/template');
 const gen           = require('./src/generator/generator');
+
+const app           = new Koa();
+
+const isProduction  = process.env.NODE_ENV === 'production';
 
 let mappings = {};		//store mappings
 let dataSet  = {};		//store defined datas
@@ -34,7 +42,41 @@ function startup() {
 
 startup();
 
+//init nunjucks
+function createEnv(path, opts) {
+    var
+        autoescape = opts.autoescape && true,
+        noCache = opts.noCache || false,
+        watch = opts.watch || false,
+        throwOnUndefined = opts.throwOnUndefined || false,
+        env = new nunjucks.Environment(
+            new nunjucks.FileSystemLoader(path, {
+                noCache: noCache,
+                watch: watch,
+            }), {
+                autoescape: autoescape,
+                throwOnUndefined: throwOnUndefined
+            });
+    if (opts.filters) {
+        for (var f in opts.filters) {
+            env.addFilter(f, opts.filters[f]);
+        }
+    }
+    return env;
+}
+
+var env = createEnv('views', {
+    watch: true,
+    filters: {
+        hex: function (n) {
+            return '0x' + n.toString(16);
+        }
+    }
+});
+
 app.use(favicon(process.cwd() + '/favicon.ico'));
+
+app.use(staticFile('/static/', __dirname + '/static'));
 
 //route /man to router
 app.use(async (ctx, next) => {
@@ -65,18 +107,29 @@ app.use(async (ctx, next) => {
 	}
 });
 
+app.use(templating('views', {
+    noCache: !isProduction,
+    watch: !isProduction
+}));
+
+app.use(bodyParser());
+
 // add router middleware:
 app.use(router.routes());
 
 // add url-route:
+router.get('/__man__', async (ctx, next) => {
+    ctx.response.body = '<h1>Index</h1>';
+});
 router.get('/__man__/hello/:name', async (ctx, next) => {
     var name = ctx.params.name;
     ctx.response.body = '<h1>Hello, ${name}!</h1>';
 });
-router.get('/__man__', async (ctx, next) => {
-	console.log(ctx.request);
-	console.log(ctx.response);
-    ctx.response.body = '<h1>Index</h1>';
+router.get('/__man__/mappingmgr', async (ctx, next) => {
+    ctx.render('mapping/mappings.html', {});
+});
+router.get('/__man__/mappings', async (ctx, next) => {
+    
 });
 
 // startup server
