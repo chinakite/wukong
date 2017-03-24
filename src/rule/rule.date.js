@@ -7,8 +7,6 @@ const DATE_POLICY_NOW        = "now";
 
 const DATE_DEFAULT_FORMAT    = "yyyy-MM-dd";
 
-var util = require('../util');
-
 function parseRule(ruleItemStrs) {
 	return parseDateRule(ruleItemStrs);
 }
@@ -18,7 +16,7 @@ function parseDateRule(ruleItemStrs) {
 	for(let i=1; i<ruleItemStrs.length; i++) {
 		let rule = ruleItemStrs[i];
 		if(rule == DATE_POLICY_TODAY
-				|| rule == DATE_POLICY_NOW 
+				|| rule == DATE_POLICY_NOW
 				|| rule == DATE_POLICY_YESTERDAY
 				|| rule == DATE_POLICY_TOMORROW) {
 			dateRuleDesc.policy = rule;
@@ -28,7 +26,7 @@ function parseDateRule(ruleItemStrs) {
 				dateRuleDesc.format = rule;
 			}else{
 				//throw "Invalid expression item : " + rule;
-			} 
+			}
 		}
 	}
 	if(!dateRuleDesc.policy) {

@@ -7,7 +7,7 @@ const REG_INT_NUM               = /\d+/g;
 const INT_POLICY_STEP     = "step";
 const INT_POLICY_RANDOM   = "random";
 
-var util = require('../util');
+var regexUtil = require('../util/regex.util');
 
 function parseRule(ruleItemStrs) {
 	return parseIntRule(ruleItemStrs);
@@ -23,11 +23,11 @@ function parseIntRule(ruleItemStrs) {
 			intRuleDesc.policy = rule;
 		}else{
 			if(rule.startsWith("[") && rule.endsWith(']')) {
-				var datas = util.regexFullMatch(rule, REG_INT_ARRAY_BEFORE_LAST);
+				var datas = regexUtil.regexFullMatch(rule, REG_INT_ARRAY_BEFORE_LAST);
 				if(!datas) {
 					datas = [];
 				}
-				var lastData = util.regexFullMatch(rule, REG_INT_ARRAY_LAST);
+				var lastData = regexUtil.regexFullMatch(rule, REG_INT_ARRAY_LAST);
 				if(lastData && lastData.length > 0) {
 					datas.push(lastData);
 				}
@@ -37,8 +37,8 @@ function parseIntRule(ruleItemStrs) {
 					intRuleDesc.dataset = datas;
 				}
 			}else{
-				var dualNumMatches = util.regexFullMatch(rule, REG_INT_DUAL_NUM_STEP);
-				var singleNumMatches = util.regexFullMatch(rule, REG_INT_NUM_STEP);
+				var dualNumMatches = regexUtil.regexFullMatch(rule, REG_INT_DUAL_NUM_STEP);
+				var singleNumMatches = regexUtil.regexFullMatch(rule, REG_INT_NUM_STEP);
 				if(dualNumMatches && dualNumMatches.length > 1){
 					var op = dualNumMatches[1];
 					if(op == '~') {

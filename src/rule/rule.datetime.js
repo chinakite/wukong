@@ -4,8 +4,6 @@ const DATETIME_POLICY_NOW        = "now";
 
 const DATETIME_DEFAULT_FORMAT    = "yyyy-MM-dd HH:mm:ss";
 
-var util = require('../util');
-
 function parseRule(ruleItemStrs) {
 	return parseDatetimeRule(ruleItemStrs);
 }
@@ -22,7 +20,7 @@ function parseDatetimeRule(ruleItemStrs) {
 				datetimeRuleDesc.format = rule;
 			}else{
 				//throw "Invalid expression item : " + rule;
-			} 
+			}
 		}
 	}
 	if(!datetimeRuleDesc.policy) {

@@ -8,7 +8,7 @@ const STRING_POLICY_REGEX    = "regex";
 const STRING_POLICY_FIXED    = "fixed";
 const STRING_POLICY_MY       = "my";
 
-var util = require('../util');
+var regexUtil = require('../util/regex.util');
 
 function parseRule(ruleItemStrs) {
 	return parseStringRule(ruleItemStrs);
@@ -23,8 +23,8 @@ function parseStringRule(ruleItemStrs) {
 			    || rule == STRING_POLICY_MY) {
 			stringRuleDesc.policy = rule;
 		}else{
-			if(util.regexTest(rule, REG_STRING_REGEX_EXPR)) {		//Regex
-				var matches = util.regexFullMatch(rule, REG_STRING_REGEX_EXPR);
+			if(regexUtil.regexTest(rule, REG_STRING_REGEX_EXPR)) {		//Regex
+				var matches = regexUtil.regexFullMatch(rule, REG_STRING_REGEX_EXPR);
 				if(matches && matches.length > 0) {
 					for(var j=0; j<matches.length; j++) {
 						if(j == 0 && matches[j]) {

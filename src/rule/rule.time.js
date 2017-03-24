@@ -4,8 +4,6 @@ const TIME_POLICY_NOW        = "now";
 
 const TIME_DEFAULT_FORMAT    = "HH:mm:ss";
 
-var util = require('../util');
-
 function parseRule(ruleItemStrs) {
 	return parseTimeRule(ruleItemStrs);
 }
@@ -22,7 +20,7 @@ function parseTimeRule(ruleItemStrs) {
 				timeRuleDesc.format = rule;
 			}else{
 				//throw "Invalid expression item : " + rule;
-			} 
+			}
 		}
 	}
 	if(!timeRuleDesc.policy) {
