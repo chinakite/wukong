@@ -6,6 +6,7 @@ const STRING_POLICY_CNAME    = "cname";
 const STRING_POLICY_RANDOM   = "random";
 const STRING_POLICY_REGEX    = "regex";
 const STRING_POLICY_FIXED    = "fixed";
+const STRING_POLICY_MY       = "my";
 
 var util = require('../util');
 
@@ -18,7 +19,8 @@ function parseStringRule(ruleItemStrs) {
 	for(let i=1; i<ruleItemStrs.length; i++) {
 		let rule = ruleItemStrs[i];
 		if(rule == STRING_POLICY_REGEX
-				|| rule == STRING_POLICY_FIXED) {
+				|| rule == STRING_POLICY_FIXED
+			    || rule == STRING_POLICY_MY) {
 			stringRuleDesc.policy = rule;
 		}else{
 			if(util.regexTest(rule, REG_STRING_REGEX_EXPR)) {		//Regex
@@ -43,6 +45,12 @@ function parseStringRule(ruleItemStrs) {
 					stringRuleDesc.value = '';
 				}else{
 					stringRuleDesc.value = rule.substring(1, rule.length - 1);
+				}
+			}else{
+				if(stringRuleDesc.policy == 'my') {
+					stringRuleDesc.mypolicy = rule;
+				}else{
+					throw "Can not parse rule expression : " + rule;
 				}
 			}
 		}
@@ -99,6 +107,13 @@ class StringRuleDesc {
     set regexAttr(_regexAttr) {
     	this._regexAttr = _regexAttr;
     }
+
+	get mypolicy() {
+		return this._mypolicy;
+	}
+	set mypolicy(_mypolicy) {
+		this._mypolicy = _mypolicy;
+	}
 }
 
 module.exports = {

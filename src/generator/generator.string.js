@@ -33,10 +33,12 @@ function generate(stringRuleDesc, count) {
 		}else{
 			let result = [];
 			for(var i=0; i<count; i++) {
-				result.push(stringRuleDesc.vallue);
+				result.push(stringRuleDesc.value);
 			}
 			return result;
 		}
+	}else if(policy == 'my') {
+
 	}
 }
 
