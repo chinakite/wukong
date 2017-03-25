@@ -42,38 +42,6 @@ function startup() {
 
 startup();
 
-//init nunjucks
-function createEnv(path, opts) {
-    var
-        autoescape = opts.autoescape && true,
-        noCache = opts.noCache || false,
-        watch = opts.watch || false,
-        throwOnUndefined = opts.throwOnUndefined || false,
-        env = new nunjucks.Environment(
-            new nunjucks.FileSystemLoader(path, {
-                noCache: noCache,
-                watch: watch,
-            }), {
-                autoescape: autoescape,
-                throwOnUndefined: throwOnUndefined
-            });
-    if (opts.filters) {
-        for (var f in opts.filters) {
-            env.addFilter(f, opts.filters[f]);
-        }
-    }
-    return env;
-}
-
-var env = createEnv('views', {
-    watch: true,
-    filters: {
-        hex: function (n) {
-            return '0x' + n.toString(16);
-        }
-    }
-});
-
 app.use(favicon(process.cwd() + '/favicon.ico'));
 
 app.use(staticFile('/static/', __dirname + '/static'));
@@ -129,7 +97,7 @@ router.get('/__man__/mappingmgr', async (ctx, next) => {
     ctx.render('mapping/mappings.html', {});
 });
 router.get('/__man__/mappings', async (ctx, next) => {
-    
+
 });
 
 // startup server

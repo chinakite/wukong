@@ -1,28 +1,87 @@
 const fs     = require("fs");
 const random = require("random-js")();
 
-function randline(filepath) {
-	fs.stat(filepath, function(err, stats){
-		let bufferSize = 1024;
-		if(err) {
-			throw err;
-		}
+var randline = async function(filepath, excludeEmpty=true, bufferSize=1024) {
+	var stats = await fileStat(filepath);
+	return await readRandomLine(stats, filepath, excludeEmpty, bufferSize);
+}
+
+// var randline = async function(filepath, excludeEmpty=true, bufferSize=1024) {
+// 	return new Promise(function (resolve, reject) {
+//
+// 	});
+// 	fs.stat(filepath, function(err, stats){
+// 		if(err) {
+// 			throw err;
+// 		}
+// 		let chunkRange = stats.size - bufferSize;
+// 		let options = {};
+// 		if(chunkRange > 0) {
+//             options.start = random.integer(0, chunkRange);
+//             options.end = options.start + bufferSize;
+// 		}
+//         let stream = fs.createReadStream(filepath, options);
+//         stream.on('data', function(d){
+//             let arr = d.toString().split(/\r?\n/);
+// 			stream.destroy();
+// 			if(chunkRange > 0) {
+// 				if(options.start > 0) {
+// 					//drop head, because it maybe not a integrity line
+// 		            arr.splice(0, 1);
+// 				}
+// 				if(options.end < stats.size) {
+// 					//drop tail, because it maybe not a integrity line
+// 					arr.splice(arr.length-1, 1);
+// 				}
+// 			}
+// 			if(excludeEmpty) {
+// 				arr = arr.filter(function(e){return !!e;});
+// 			}
+// 			return random.pick(arr);
+//         });
+// 	});
+// }
+
+var fileStat = function(filepath) {
+	return new Promise(function (resolve, reject) {
+		fs.stat(filepath, function(err, stats){
+			if(err) {
+				reject(err);
+			}
+			resolve(stats);
+		});
+	});
+}
+
+var readRandomLine = function(stats, filepath, excludeEmpty, bufferSize) {
+	return new Promise(function (resolve, reject) {
 		let chunkRange = stats.size - bufferSize;
 		let options = {};
 		if(chunkRange > 0) {
-            options.start = random.integer(0, chunkRange);
-            options.end = options.start + bufferSize;
+			options.start = random.integer(0, chunkRange);
+			options.end = options.start + bufferSize;
 		}
-        let stream = fs.createReadStream(filepath, options);
-        stream.on('data', function(d){
-            console.log(d.toString());
-            let arr = d.toString().split(/\r?\n/);
-            console.log(arr);
-            arr.splice(0, 1);
-            arr.splice(arr.length-1, 1);
-            stream.destroy();
-            return random.pick(arr);
-        });
+
+		let stream = fs.createReadStream(filepath, options);
+	    stream.on('data', function(d){
+	        let arr = d.toString().split(/\r?\n/);
+			stream.destroy();
+			if(chunkRange > 0) {
+				if(options.start > 0) {
+					//drop head, because it maybe not a integrity line
+		            arr.splice(0, 1);
+				}
+				if(options.end < stats.size) {
+					//drop tail, because it maybe not a integrity line
+					arr.splice(arr.length-1, 1);
+				}
+			}
+			if(excludeEmpty) {
+				arr = arr.filter(function(e){return !!e;});
+			}
+			console.log("async return... " + random.pick(arr));
+			resolve(random.pick(arr));
+	    });
 	});
 }
 
