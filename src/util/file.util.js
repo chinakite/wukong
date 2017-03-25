@@ -15,7 +15,9 @@ function randline(filepath) {
 		}
         let stream = fs.createReadStream(filepath, options);
         stream.on('data', function(d){
+            console.log(d.toString());
             let arr = d.toString().split(/\r?\n/);
+            console.log(arr);
             arr.splice(0, 1);
             arr.splice(arr.length-1, 1);
             stream.destroy();
