@@ -1,7 +1,8 @@
-const random  = require("random-js")();
-const RandExp = require("randexp");
+const random   = require("random-js")();
+const RandExp  = require("randexp");
+const fileUtil = require("../util/file.util");
 
-function generate(stringRuleDesc, count) {
+async function generate(stringRuleDesc, count, config) {
 	if(!count) count = 1;
 	let policy = stringRuleDesc.policy;
 	if(policy == 'regex') {
@@ -38,7 +39,20 @@ function generate(stringRuleDesc, count) {
 			return result;
 		}
 	}else if(policy == 'my') {
-
+		let mypolicy = stringRuleDesc.mypolicy;
+		let mylibPath = config.storage.mylibPath;
+		let myfilePath = mylibPath + "/" + mypolicy + ".wk72";
+		if(count == 1) {
+			let randline = await fileUtil.randline(myfilePath);
+			return randline;
+		}else{
+			let result = [];
+			for(var i=0; i<count; i++) {
+				let randline = await fileUtil.randline(myfilePath);
+				result.push(randline);
+			}
+			return result;
+		}
 	}
 }
 

@@ -5,7 +5,7 @@ var dateGen = require('./generator.date');
 var datetimeGen = require('./generator.datetime');
 var timeGen = require('./generator.time');
 
-function generate(tmpl, count) {
+function generate(tmpl, count, config) {
 	if(!count) {
 		count = 1;
 	}
@@ -20,17 +20,17 @@ function generate(tmpl, count) {
 		for(var prop in tmpl) {
 			var ruleDesc = tmpl[prop];
 			if(ruleDesc.dataType == 'int') {
-				dataCache[prop] = intGen.generate(ruleDesc.desc, count);
+				dataCache[prop] = intGen.generate(ruleDesc.desc, count, config);
 			}else if(ruleDesc.dataType == 'boolean'){
-				dataCache[prop] = boolGen.generate(ruleDesc.desc, count);
+				dataCache[prop] = boolGen.generate(ruleDesc.desc, count, config);
 			}else if(ruleDesc.dataType == 'string'){
-				dataCache[prop] = stringGen.generate(ruleDesc.desc, count);
+				dataCache[prop] = stringGen.generate(ruleDesc.desc, count, config);
 			}else if(ruleDesc.dataType == 'date'){
-				dataCache[prop] = dateGen.generate(ruleDesc.desc, count);
+				dataCache[prop] = dateGen.generate(ruleDesc.desc, count, config);
 			}else if(ruleDesc.dataType == 'datetime'){
-				dataCache[prop] = datetimeGen.generate(ruleDesc.desc, count);
+				dataCache[prop] = datetimeGen.generate(ruleDesc.desc, count, config);
 			}else if(ruleDesc.dataType == 'time'){
-				dataCache[prop] = timeGen.generate(ruleDesc.desc, count);
+				dataCache[prop] = timeGen.generate(ruleDesc.desc, count, config);
 			}
 		}
 		if(count == 1) {

@@ -1,10 +1,10 @@
 var random = require("random-js")();
 require('datejs');
 
-function generate(dateRuleDesc, count) {
+function generate(dateRuleDesc, count, config) {
 	if(!count) count = 1;
 	let policy = dateRuleDesc.policy;
-	if(policy == 'today' 
+	if(policy == 'today'
 			||  policy == 'now') {
 		if(count == 1) {
 			return Date.today().toString(dateRuleDesc.format);
@@ -15,7 +15,7 @@ function generate(dateRuleDesc, count) {
 			}
 			return result;
 		}
-	}else if(policy == 'yesterday' 
+	}else if(policy == 'yesterday'
 				||  policy == 'tomorrow'){
 		if(count == 1) {
 			return Date.parse(policy).toString(dateRuleDesc.format);

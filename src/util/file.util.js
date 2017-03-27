@@ -3,7 +3,7 @@ const random = require("random-js")();
 
 var randline = async function(filepath, excludeEmpty=true, bufferSize=1024) {
 	var stats = await fileStat(filepath);
-	return await readRandomLine(stats, filepath, excludeEmpty, bufferSize);
+	return readRandomLine(stats, filepath, excludeEmpty, bufferSize);
 }
 
 // var randline = async function(filepath, excludeEmpty=true, bufferSize=1024) {

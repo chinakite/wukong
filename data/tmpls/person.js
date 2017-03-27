@@ -1,9 +1,9 @@
 var person = {
 	id      : "int|100+1",
-	name    : "string|cname|0-10",
+	name    : "string|'AAA'",
 	birth   : "date|'1981-01-01'",
 	created : "datetime|now",
-	email   : 'string|email'
+	email   : "string|'BBB'"
 }
 
 module.exports = {

@@ -1,7 +1,7 @@
 var random = require("random-js")();
 require('datejs');
 
-function generate(timeRuleDesc, count) {
+function generate(timeRuleDesc, count, config) {
 	if(!count) count = 1;
 	let policy = timeRuleDesc.policy;
 	if(policy == 'now') {

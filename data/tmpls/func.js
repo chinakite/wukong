@@ -5,7 +5,8 @@ var func = {
 	birth : "date|today|#yyyy/MM/dd",
 	created : "datetime|now",
 	openTime : "time|now",
-	role : "string|'超级管理员'"
+	role : "string|'超级管理员'",
+	like : "string|my|display_monitor_brand"
 }
 
 module.exports = {

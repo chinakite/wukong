@@ -65,7 +65,7 @@ app.use(async (ctx, next) => {
 		if(mapping.type == 'tmpl') {
 			var tmpl = tmplSet[mapping.dataKey];
 			logger.debug("Find data template for url [ %s ] : ", url, tmpl);
-			var data = gen.generate(tmpl, mapping.count);
+			var data = await gen.generate(tmpl, mapping.count, config);
 			responseBody = {code: 200, data: data};
 		}else{
 			responseBody = {code: 200, data: dataSet[mapping.dataKey][mapping.state]};

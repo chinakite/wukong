@@ -1,6 +1,6 @@
 var random = require("random-js")();
 
-function generate(boolRuleDesc, count) {
+function generate(boolRuleDesc, count, config) {
 	if(!count) count = 1;
 	let policy = boolRuleDesc.policy;
 	if(policy == 'true') {

@@ -1,6 +1,6 @@
 var random = require("random-js")();
 
-function generate(intRuleDesc, count) {
+function generate(intRuleDesc, count, config) {
 	if(!count) count = 1;
 	let policy = intRuleDesc.policy;
 	if(policy == 'step') {
