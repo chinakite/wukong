@@ -65,15 +65,30 @@ app.use(async (ctx, next) => {
 		if(mapping.type == 'tmpl') {
 			var tmpl = tmplSet[mapping.dataKey];
 			logger.debug("Find data template for url [ %s ] : ", url, tmpl);
-			var data = await gen.generate(tmpl, mapping.count, config);
-			responseBody = {code: 200, data: data};
+			try {
+				var data = await gen.generate(tmpl, mapping.count, config);
+				responseBody = {code: 200, data: data};
+			}catch(err) {
+				throw err;
+			}
 		}else{
 			responseBody = {code: 200, data: dataSet[mapping.dataKey][mapping.state]};
+		}
+		if(mapping.delay && mapping.delay > 0) {
+			await timer(mapping.delay);
 		}
 		logger.debug("Response data for url[ %s ] : ", url, responseBody);
 		ctx.response.body = responseBody;
 	}
 });
+
+function timer(delay) {
+	return new Promise((resolve, reject)=>{
+		setTimeout(function(){
+			resolve();
+		}, delay);
+	});
+}
 
 app.use(templating('views', {
     noCache: !isProduction,

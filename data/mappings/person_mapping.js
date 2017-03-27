@@ -2,7 +2,8 @@ var mappings = [
     {
     	'/persons' : {
 			type : 'data',
-            dataKey : 'persons'
+            dataKey : 'persons',
+            delay : 5000
 		}
     }
 ];
