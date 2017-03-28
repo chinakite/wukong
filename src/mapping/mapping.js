@@ -43,6 +43,26 @@ function loadMappings(config, mappings) {
     return count;
 }
 
+function parseMapping(filepath, mappings) {
+    let data = require(filepath);
+    if(data.mappings) {
+        let count = 0;
+        data.mappings.forEach(function(value, index){
+            for(let url in value) {
+                mappings[url] = value[url];
+                if(!(mappings[url].state)) {
+                    mappings[url].state = 'success';
+                }
+                if(mappings[url].count == undefined) {
+                    mappings[url].count = 1;
+                }
+                count++;
+            }
+        });
+    }
+    return count;
+}
+
 module.exports = {
     "loadMappings" : loadMappings
 }
