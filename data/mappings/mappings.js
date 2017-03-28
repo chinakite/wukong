@@ -9,7 +9,10 @@ var mappings = [
     	'/funcs' : {
 			type : 'tmpl',
 			dataKey : 'func',
-			count : 10
+			count : 10,
+			wrapper : {
+				success : {"code": 200, "data": "@respData"}
+			}
 		}
     }
 ];

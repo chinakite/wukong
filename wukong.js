@@ -67,15 +67,28 @@ app.use(async (ctx, next) => {
 			logger.debug("Find data template for url [ %s ] : ", url, tmpl);
 			try {
 				var data = await gen.generate(tmpl, mapping.count, config);
-				responseBody = {code: 200, data: data};
+				responseBody = data;
 			}catch(err) {
 				throw err;
 			}
 		}else{
-			responseBody = {code: 200, data: dataSet[mapping.dataKey][mapping.state]};
+			responseBody = dataSet[mapping.dataKey][mapping.state];
 		}
 		if(mapping.delay && mapping.delay > 0) {
 			await timer(mapping.delay);
+		}
+		if(!mapping.state) {
+			mapping.state = "success";
+		}
+		if(mapping.wrapper && mapping.wrapper[mapping.state]) {
+			let wrapper = mapping.wrapper[mapping.state];
+			for(let prop in wrapper) {
+				if(wrapper[prop] === "@respData") {
+					wrapper[prop] = responseBody;
+					break;
+				}
+			}
+			responseBody = wrapper;
 		}
 		logger.debug("Response data for url[ %s ] : ", url, responseBody);
 		ctx.response.body = responseBody;
