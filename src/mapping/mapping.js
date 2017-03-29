@@ -20,21 +20,7 @@ function loadMappings(config, mappings) {
 				});
 
 				for (var file of dataFiles) {
-					let data = require(dir + '/' + file);
-					if(data.mappings) {
-						data.mappings.forEach(function(value, index){
-							for(let url in value) {
-								mappings[url] = value[url];
-                                if(!(mappings[url].state)) {
-                                    mappings[url].state = 'success';
-                                }
-                                if(mappings[url].count == undefined) {
-                                    mappings[url].count = 1;
-                                }
-                                count++;
-							}
-						});
-					}
+                    count += parseMapping(dir + "/" + file, mappings);
 				}
 			});
 		}
@@ -44,21 +30,19 @@ function loadMappings(config, mappings) {
 }
 
 function parseMapping(filepath, mappings) {
+    let count = 0;
     let data = require(filepath);
     if(data.mappings) {
-        let count = 0;
-        data.mappings.forEach(function(value, index){
-            for(let url in value) {
-                mappings[url] = value[url];
-                if(!(mappings[url].state)) {
-                    mappings[url].state = 'success';
-                }
-                if(mappings[url].count == undefined) {
-                    mappings[url].count = 1;
-                }
-                count++;
+        for(let url in data.mappings) {
+            mappings[url] = data.mappings[url];
+            if(!(data.mappings[url].state)) {
+                mappings[url].state = 'success';
             }
-        });
+            if(data.mappings[url].count == undefined) {
+                mappings[url].count = 1;
+            }
+            count++;
+        }
     }
     return count;
 }

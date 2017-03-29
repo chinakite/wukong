@@ -1,12 +1,9 @@
-var mappings = [
-	{
+var mappings = {
 		'/modules' : {
 			type : 'data',
 			dataKey : 'modules'
-		}
-    },
-    {
-    	'/funcs' : {
+		},
+		'/funcs' : {
 			type : 'tmpl',
 			dataKey : 'func',
 			count : 10,
@@ -14,8 +11,7 @@ var mappings = [
 				success : {"code": 200, "data": "@respData"}
 			}
 		}
-    }
-];
+    };
 
 module.exports = {
 	"mappings": mappings
