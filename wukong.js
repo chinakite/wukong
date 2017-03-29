@@ -4,8 +4,6 @@ const bodyParser    = require('koa-bodyparser');
 const favicon       = require('koa-favicon');
 const nunjucks      = require('nunjucks');
 
-const logger        = require('tracer').colorConsole({level:'debug'});
-
 const staticFile    = require('./src/static.file');
 const templating    = require('./src/html.template');
 
@@ -14,6 +12,13 @@ const mapping       = require('./src/mapping/mapping');
 const dataset       = require('./src/dataset/dataset');
 const template      = require('./src/template/template');
 const gen           = require('./src/generator/generator');
+
+//TODO extends Default Options
+let   logOption     = config.log;
+if(!logOption) {
+	logOption = {level: 'info'}
+}
+const logger        = require('tracer').colorConsole(config.log);
 
 const app           = new Koa();
 

@@ -7,7 +7,10 @@ const config = {
 		tmplPath  : ['data/tmpls'],
         libPath   : ['data/lib'],
         mylibPath : ['data/lib/my']
-	}
+	},
+    log : {
+        level : 'debug'
+    }
 };
 
 module.exports = config;
