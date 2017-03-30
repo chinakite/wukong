@@ -1,7 +1,11 @@
 var mappings = {
 		'/modules' : {
 			type : 'data',
-			dataKey : 'modules'
+			dataKey : 'modules',
+			count: 1,
+			wrapper : {
+				success : {"code": 200, "data": "@respData"}
+			}
 		},
 		'/funcs' : {
 			type : 'tmpl',

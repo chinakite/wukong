@@ -1,35 +1,37 @@
-const fs      = require('fs');
-const gaze    = require('gaze');
+const fs = require('fs');
+const gaze = require('gaze');
 
-const logger  = require('tracer').colorConsole({level:'debug'});
+const logger = require('tracer').colorConsole({
+    level: 'debug'
+});
 
 function loadMappings(config, mappings) {
     let count = 0;
 
     let storageConfig = config.storage;
 
-	let mappingsDir;
-	if(storageConfig.engine == 'fs') {
-		mappingsDir = storageConfig.mappings;
-		if(Array.isArray(mappingsDir)){
-			mappingsDir.forEach(function(value, index){
-				var dir = process.cwd() + '/' + value;
+    let mappingsDir;
+    if (storageConfig.engine == 'fs') {
+        mappingsDir = storageConfig.mappings;
+        if (Array.isArray(mappingsDir)) {
+            mappingsDir.forEach(function(value, index) {
+                var dir = process.cwd() + '/' + value;
 
-				var mappingFiles = fs.readdirSync(dir);
+                var mappingFiles = fs.readdirSync(dir);
 
-				// Read js file only.
-				var dataFiles = mappingFiles.filter((f)=>{
-				    return f.endsWith('.js');
-				});
+                // Read js file only.
+                var dataFiles = mappingFiles.filter((f) => {
+                    return f.endsWith('.js');
+                });
 
-				for (var file of dataFiles) {
+                for (var file of dataFiles) {
                     count += parseMapping(dir + "/" + file, mappings);
-				}
-			});
-		}
+                }
+            });
+        }
 
         watchMappings(mappingsDir, mappings);
-	}
+    }
 
     return count;
 }
@@ -37,18 +39,28 @@ function loadMappings(config, mappings) {
 function parseMapping(filepath, mappings) {
     let count = 0;
     let data = require(filepath);
-    if(data.mappings) {
-        logger.debug("-------------------");
-        logger.debug(data.mappings);
-        logger.debug("-------------------");
-        for(let url in data.mappings) {
+    if (data.mappings) {
+        for (let url in data.mappings) {
             mappings[url] = data.mappings[url];
-            if(!(data.mappings[url].state)) {
+            if (!(data.mappings[url].state)) {
                 mappings[url].state = 'success';
             }
-            if(data.mappings[url].count == undefined) {
+            if (data.mappings[url].count == undefined) {
                 mappings[url].count = 1;
             }
+            count++;
+        }
+    }
+
+    return count;
+}
+
+function removeMapping(filepath, mappings) {
+    let count = 0;
+    let data = require(filepath);
+    if (data.mappings) {
+        for (let url in data.mappings) {
+            delete mappings[url];
             count++;
         }
     }
@@ -61,34 +73,29 @@ function watchMappings(mappingsDir, mappings) {
     gaze(mappingsDir + '/**/*.js', function(err, watcher) {
         // On file changed
         this.on('changed', function(filepath) {
-            logger.debug("*********************************");
-            logger.debug(mappings);
+            delete require.cache[require.resolve(filepath)];
 
             logger.debug('%s was changed', filepath);
             let count = parseMapping(filepath, mappings);
             logger.info('%s mappings are reloaded.', count);
-
-            logger.debug(mappings);
-            logger.debug("*********************************");
         });
 
-      // On file added
-      this.on('added', function(filepath) {
-        logger.debug(filepath + ' was added');
-      });
+        // On file added
+        this.on('added', function(filepath) {
+            logger.debug('%s was added.', filepath);
+            let count = parseMapping(filepath, mappings);
+            logger.info('%s new mappings are loaded.', count);
+        });
 
-      // On file deleted
-      this.on('deleted', function(filepath) {
-        logger.debug(filepath + ' was deleted');
-      });
-
-      // On changed/added/deleted
-      this.on('all', function(event, filepath) {
-        logger.debug(filepath + ' was ' + event);
-      });
+        // On file deleted
+        this.on('deleted', function(filepath) {
+            logger.debug('%s was deleted.', filepath);
+            let count = removeMapping(filepath, mappings);
+            logger.info('%s mappings are removed.', count);
+        });
     });
 }
 
 module.exports = {
-    "loadMappings" : loadMappings
+    "loadMappings": loadMappings
 }
