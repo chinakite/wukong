@@ -14,6 +14,10 @@ var mappings = {
 			wrapper : {
 				success : {"code": 200, "data": "@respData"}
 			}
+		},
+		'/menus' : {
+			type : 'data',
+			dataKey : 'menus'
 		}
     };
 

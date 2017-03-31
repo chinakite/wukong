@@ -1,4 +1,9 @@
-const fs = require('fs');
+const fs     = require('fs');
+const gaze   = require('gaze');
+
+const logger = require('tracer').colorConsole({
+    level: 'debug'
+});
 
 function loadDatas(config, dataSet) {
     let dataDefCount = 0;
@@ -21,17 +26,62 @@ function loadDatas(config, dataSet) {
 
 				// 处理每个js文件:
 				for (var file of dataFiles) {
-					let data = require(dir + '/' + file);
-					for(let name in data) {
-						dataSet[name] = data[name];
-                        dataDefCount++;
-					}
+					dataDefCount += parseDataSet(dir + "/" + file, dataSet);
 				}
 			});
 		}
+        watchDataSet(datasDir, dataSet);
 	}
 
     return dataDefCount;
+}
+
+function parseDataSet(filepath, dataSet){
+    let count = 0;
+    let data = require(filepath);
+    for(let name in data) {
+        dataSet[name] = data[name];
+        count++;
+    }
+    return count;
+}
+
+function removeDataSet(filepath, dataSet){
+    let count = 0;
+    let data = require(filepath);
+    for(let name in data) {
+        delete dataSet[name];
+        count++;
+    }
+    return count;
+}
+
+function watchDataSet(dataDir, dataSet) {
+    // Watch all .js files/dirs in process.cwd()
+    gaze(dataDir + '/**/*.js', function(err, watcher) {
+        // On file changed
+        this.on('changed', function(filepath) {
+            delete require.cache[require.resolve(filepath)];
+
+            logger.debug('%s was changed', filepath);
+            let count = parseDataSet(filepath, dataSet);
+            logger.info('%s data definitions are reloaded.', count);
+        });
+
+        //On file added
+        this.on('added', function(filepath) {
+            logger.debug('%s was added.', filepath);
+            let count = parseDataSet(filepath, dataSet);
+            logger.info('%s new mappings are loaded.', count);
+        });
+
+        // On file deleted
+        this.on('deleted', function(filepath) {
+            logger.debug('%s was deleted.', filepath);
+            let count = removeDataSet(filepath, dataSet);
+            logger.info('%s mappings are removed.', count);
+        });
+    });
 }
 
 module.exports = {

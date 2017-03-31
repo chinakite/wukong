@@ -67,33 +67,34 @@ app.use(async (ctx, next) => {
 	}else{     //route mock data url
 		let mapping = mappings[url];
 		let responseBody;
+		let data;
 		if(mapping.type == 'tmpl') {
 			var tmpl = tmplSet[mapping.dataKey];
 			logger.debug("Find data template for url [ %s ] : ", url, tmpl);
 			try {
-				var data = await gen.generate(tmpl, mapping.count, config);
-				responseBody = data;
+				data = await gen.generate(tmpl, mapping.count, config);
 			}catch(err) {
 				throw err;
 			}
 		}else{
-			responseBody = dataSet[mapping.dataKey][mapping.state];
+			data = dataSet[mapping.dataKey][mapping.state];
 		}
 		if(mapping.delay && mapping.delay > 0) {
 			await timer(mapping.delay);
 		}
-		if(!mapping.state) {
-			mapping.state = "success";
-		}
 		if(mapping.wrapper && mapping.wrapper[mapping.state]) {
 			let wrapper = mapping.wrapper[mapping.state];
+			let wrapperedObj = {};
 			for(let prop in wrapper) {
 				if(wrapper[prop] === "@respData") {
-					wrapper[prop] = responseBody;
-					break;
+					wrapperedObj[prop] = data;
+				}else{
+					wrapperedObj[prop] = wrapper[prop];
 				}
 			}
-			responseBody = wrapper;
+			responseBody = wrapperedObj;
+		}else{
+			responseBody = data;
 		}
 		logger.debug("Response data for url[ %s ] : ", url, responseBody);
 		ctx.response.body = responseBody;
