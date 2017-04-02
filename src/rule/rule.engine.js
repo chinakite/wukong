@@ -1,8 +1,4 @@
-const supportedDataType = ['int', 'string', 'boolean', 'bool', 'date', 'datetime', 'time'];
-
-const REG_INT_STEP = /\+(\d+)/g;
-const REG_INT_START_STEP = /(\d+)\+(\d+)/g;
-const REG_INT_MIN_MAX = /(\d+)\-(\d+)/;
+const supportedDataType = ['int', 'string', 'boolean', 'bool', 'date', 'datetime', 'time', 'float'];
 
 let intRule = require("./rule.int");
 let boolRule = require("./rule.boolean");
@@ -10,10 +6,11 @@ let stringRule = require("./rule.string");
 let dateRule = require("./rule.date");
 let datetimeRule = require("./rule.datetime");
 let timeRule = require("./rule.time");
+let floatRule = require('./rule.float');
 
 /*
  * int - min,max,start,step,random
- * 
+ *
  *
  */
 function parseRule(rule) {
@@ -48,6 +45,9 @@ function parseRule(rule) {
 		}else if(dataType == 'time') {
 			var timeRuleDesc = timeRule.parseRule(ruleItemStrs);
 			ruleDesc.desc = timeRuleDesc;
+		}else if(dataType == 'float') {
+			var floatRuleDesc = floatRule.parseRule(ruleItemStrs);
+			ruleDesc.desc = floatRuleDesc;
 		}
 	}
 	return ruleDesc;

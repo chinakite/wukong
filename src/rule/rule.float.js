@@ -1,8 +1,8 @@
-const REG_FLOAT_NUM_STEP 		  = /(\+|\-)(\d+)$/g;
-const REG_FLOAT_DUAL_NUM_STEP 	  = /(\d+)(\+|\-|~)(\d+)$/g;
-const REG_FLOAT_ARRAY_LAST        = /(\d+)\]$/g;
-const REG_FLOAT_ARRAY_BEFORE_LAST = /(\d+)\,/g;
-const REG_FLOAT_NUM               = /\d+/g;
+const REG_FLOAT_NUM_STEP 		  = /(\+|\-)(\d+\.\d+)$/g;
+const REG_FLOAT_DUAL_NUM_STEP 	  = /(\d+\.\d+)(\+|\-|~)(\d+\.\d+)$/g;
+const REG_FLOAT_ARRAY_LAST        = /(\d+\.\d+)\]$/g;
+const REG_FLOAT_ARRAY_BEFORE_LAST = /(\d+\.\d+)\,/g;
+const REG_FLOAT_NUM               = /\d+\.\d+/g;
 const REG_FLOAT_PRECISION         = /^\.(\d+)/g;
 
 const FLOAT_POLICY_STEP     = "step";
@@ -19,16 +19,16 @@ function parseFloatRule(ruleItemStrs) {
 	let floatRuleDesc = new FloatRuleDesc();
 	for(let i=1; i<ruleItemStrs.length; i++) {
 		let rule = ruleItemStrs[i];
-		if(rule == INT_POLICY_STEP
-				|| rule == INT_POLICY_RANDOM ) {
+		if(rule == FLOAT_POLICY_STEP
+				|| rule == FLOAT_POLICY_RANDOM ) {
 			floatRuleDesc.policy = rule;
 		}else{
 			if(rule.startsWith("[") && rule.endsWith(']')) {
-				var datas = regexUtil.regexFullMatch(rule, REG_INT_ARRAY_BEFORE_LAST);
+				var datas = regexUtil.regexFullMatch(rule, REG_FLOAT_ARRAY_BEFORE_LAST);
 				if(!datas) {
 					datas = [];
 				}
-				var lastData = regexUtil.regexFullMatch(rule, REG_INT_ARRAY_LAST);
+				var lastData = regexUtil.regexFullMatch(rule, REG_FLOAT_ARRAY_LAST);
 				if(lastData && lastData.length > 0) {
 					datas.push(lastData);
 				}
@@ -44,41 +44,44 @@ function parseFloatRule(ruleItemStrs) {
 				if(dualNumMatches && dualNumMatches.length > 1){
 					var op = dualNumMatches[1];
 					if(op == '~') {
-						floatRuleDesc.min = parseInt(dualNumMatches[0]);
-						floatRuleDesc.max = parseInt(dualNumMatches[2]);
+						floatRuleDesc.min = parseFloat(dualNumMatches[0]);
+						floatRuleDesc.max = parseFloat(dualNumMatches[2]);
 					}else if(op == '+') {
 						floatRuleDesc.policy = INT_POLICY_STEP;
-						floatRuleDesc.min = parseInt(dualNumMatches[0]);
-						floatRuleDesc.step = parseInt(dualNumMatches[2]);
+						floatRuleDesc.min = parseFloat(dualNumMatches[0]);
+						floatRuleDesc.step = parseFloat(dualNumMatches[2]);
 					}else if(op == '-') {
 						floatRuleDesc.policy = INT_POLICY_STEP;
-						floatRuleDesc.max = parseInt(dualNumMatches[0]);
-						floatRuleDesc.step = (0-parseInt(dualNumMatches[2]));
+						floatRuleDesc.max = parseFloat(dualNumMatches[0]);
+						floatRuleDesc.step = (0-parseFloat(dualNumMatches[2]));
 					}
 				}else if(singleNumMatches && singleNumMatches.length > 1){
 					var op = dualNumMatches[0];
 					if(op == '+') {
-						floatRuleDesc.policy = INT_POLICY_STEP;
+						floatRuleDesc.policy = FLOAT_POLICY_STEP;
 						floatRuleDesc.min = 0;
-						floatRuleDesc.step = parseInt(dualNumMatches[1]);
+						floatRuleDesc.step = parseFloat(dualNumMatches[1]);
 					}else if(op == '-') {
-						floatRuleDesc.policy = INT_POLICY_STEP;
+						floatRuleDesc.policy = FLOAT_POLICY_STEP;
 						floatRuleDesc.max = 0;
-						floatRuleDesc.step = (0-parseInt(dualNumMatches[1]));
+						floatRuleDesc.step = (0-parseFloat(dualNumMatches[1]));
 					}
 				}else if(precisionMatches && precisionMatches.length > 1){
-
+					floatRuleDesc.precision = parseFloat(precisionMatches[1])
 				}else{
 					throw "Invalid expression item : " + rule;
 				}
 			}
 		}
 	}
-	if(!intRuleDesc.policy) {
-		intRuleDesc.policy = INT_POLICY_RANDOM;
+	if(!floatRuleDesc.policy) {
+		floatRuleDesc.policy = FLOAT_POLICY_RANDOM;
+	}
+	if(!floatRuleDesc.precision) {
+		floatRuleDesc.precision = 2;
 	}
 
-	return intRuleDesc;
+	return floatRuleDesc;
 }
 
 class FloatRuleDesc {
