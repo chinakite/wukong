@@ -7,7 +7,7 @@ var func = {
 	openTime : "time|now",
 	role : "string|'超级管理员'",
 	like : "string|my|display_monitor_brand",
-	real : "float|0.5~3.2"
+	real : "float|0.5+0.02"
 }
 
 module.exports = {

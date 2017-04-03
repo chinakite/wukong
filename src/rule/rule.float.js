@@ -47,11 +47,11 @@ function parseFloatRule(ruleItemStrs) {
 						floatRuleDesc.min = parseFloat(dualNumMatches[0]);
 						floatRuleDesc.max = parseFloat(dualNumMatches[2]);
 					}else if(op == '+') {
-						floatRuleDesc.policy = INT_POLICY_STEP;
+						floatRuleDesc.policy = FLOAT_POLICY_STEP;
 						floatRuleDesc.min = parseFloat(dualNumMatches[0]);
 						floatRuleDesc.step = parseFloat(dualNumMatches[2]);
 					}else if(op == '-') {
-						floatRuleDesc.policy = INT_POLICY_STEP;
+						floatRuleDesc.policy = FLOAT_POLICY_STEP;
 						floatRuleDesc.max = parseFloat(dualNumMatches[0]);
 						floatRuleDesc.step = (0-parseFloat(dualNumMatches[2]));
 					}
