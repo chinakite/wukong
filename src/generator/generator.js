@@ -5,6 +5,7 @@ var dateGen = require('./generator.date');
 var datetimeGen = require('./generator.datetime');
 var timeGen = require('./generator.time');
 var floatGen = require('./generator.float');
+var objectGen = require('./generator.object');
 
 function generate(tmpl, count, config) {
 	return new Promise(async function(resolve, reject){
@@ -35,6 +36,8 @@ function generate(tmpl, count, config) {
 					dataCache[prop] = timeGen.generate(ruleDesc.desc, count, config);
 				}else if(ruleDesc.dataType == 'float'){
 					dataCache[prop] = floatGen.generate(ruleDesc.desc, count, config);
+				}else if(ruleDesc.dataType == 'object'){
+					dataCache[prop] = objectGen.generate(ruleDesc.desc, count, config);
 				}
 			}
 			if(count == 1) {

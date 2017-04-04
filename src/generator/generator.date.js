@@ -27,30 +27,7 @@ function generate(dateRuleDesc, count, config) {
 			return result;
 		}
 	}else{
-		var dataset = stringRuleDesc.dataset;
-		if(dataset && dataset.length > 0) {
-			if(count == 1) {
-				return random.pick(dataset);
-			}else{
-				let result = [];
-				for(var i=0; i<count; i++) {
-					var n = random.pick(dataset);
-					result.push(n);
-				}
-				return result;
-			}
-		}else{
-			if(count == 1) {
-				return random.integer(stringRuleDesc.min, stringRuleDesc.max);
-			}else{
-				let result = [];
-				for(var i=0; i<count; i++) {
-					var n = random.integer(stringRuleDesc.min, stringRuleDesc.max);
-					result.push(n);
-				}
-				return result;
-			}
-		}
+		return null;
 	}
 }
 
