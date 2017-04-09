@@ -1,4 +1,4 @@
-const supportedDataType = ['int', 'string', 'boolean', 'bool', 'date', 'datetime', 'time', 'float', 'object'];
+const supportedDataType = ['int', 'string', 'boolean', 'bool', 'date', 'datetime', 'time', 'float', 'object', 'array'];
 
 const util = require("../util/is.util");
 
@@ -24,7 +24,15 @@ function parseDataTmpl(dataTmplDef) {
 		if(util.isString(rule)) {
 			ruleDesc = parseStringRule(rule);
 		}else if(util.isArray(rule)) {
-
+			ruleDesc={};
+			ruleDesc['dataType'] = 'array';
+			let arrayRuleDesc = [];
+			for(let i=0; i<rule.length; i++) {
+				let arrEleRule = rule[i];
+				let objRuleDesc = parseDataTmpl(arrEleRule);
+				arrayRuleDesc.push(objRuleDesc);
+			}
+			ruleDesc['desc'] = arrayRuleDesc;
 		}else{
 			ruleDesc = {};
 			ruleDesc['dataType'] = 'object';

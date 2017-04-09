@@ -93,7 +93,7 @@ describe('Test rule.parser.js', function() {
             expect(ruleParser.parseDataTmpl(tmpl)).to.be.deep.equal(expected);
         });
 
-        it('Test string rule full', function() {
+        it('Test string & object rule', function() {
             let tmpl = {
                 int : 'int|100+1',
                 obj : {
@@ -133,6 +133,83 @@ describe('Test rule.parser.js', function() {
                     }
                 }
 
+            expect(ruleParser.parseDataTmpl(tmpl)).to.be.deep.equal(expected);
+        });
+
+        it('Test string & array rule', function() {
+            let tmpl = {
+                int : 'int|100+1',
+                arr : [
+                    {
+                        sub_int : "int|100-1",
+                        sub_name : "string|'test_sub_name'"
+                    },
+                    {
+                        sub_int : "int|100-1",
+                        sub_name : "string|'test_sub_name'"
+                    }
+                ]
+            };
+
+            let expected = {
+                    "int": {
+                        "dataType": "int",
+                        "desc": {
+                            "_policy": "step",
+                            "_min": 100,
+                            "_step": 1
+                        }
+                    },
+                    "arr": {
+                        "dataType": "array",
+                        "desc": [
+                            {
+                                "dataType": "object",
+                                "desc": {
+                                    "sub_int": {
+                                        "dataType": "int",
+                                        "desc": {
+                                            "_policy": "step",
+                                            "_max": 100,
+                                            "_step": -1
+                                        }
+                                    },
+                                    "sub_name": {
+                                        "dataType": "string",
+                                        "desc": {
+                                            "_policy": "fixed",
+                                            "_value": "test_sub_name"
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "dataType": "object",
+                                "desc": {
+                                    "sub_int": {
+                                        "dataType": "int",
+                                        "desc": {
+                                            "_policy": "step",
+                                            "_max": 100,
+                                            "_step": -1
+                                        }
+                                    },
+                                    "sub_name": {
+                                        "dataType": "string",
+                                        "desc": {
+                                            "_policy": "fixed",
+                                            "_value": "test_sub_name"
+                                        }
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+
+            //expect(JSON.stringify(ruleParser.parseDataTmpl(tmpl))).to.be.deep.equal(JSON.stringify(expected));
+            console.log(JSON.stringify(ruleParser.parseDataTmpl(tmpl)));
+            console.log("***************************");
             expect(ruleParser.parseDataTmpl(tmpl)).to.be.deep.equal(expected);
         });
     });
