@@ -29,8 +29,11 @@ function parseDataTmpl(dataTmplDef) {
 			let arrayRuleDesc = [];
 			for(let i=0; i<rule.length; i++) {
 				let arrEleRule = rule[i];
+				let eleDesc = {};
+				eleDesc['dataType'] = 'object';
 				let objRuleDesc = parseDataTmpl(arrEleRule);
-				arrayRuleDesc.push(objRuleDesc);
+				eleDesc['desc'] = objRuleDesc;
+				arrayRuleDesc.push(eleDesc);
 			}
 			ruleDesc['desc'] = arrayRuleDesc;
 		}else{

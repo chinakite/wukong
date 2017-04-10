@@ -206,10 +206,6 @@ describe('Test rule.parser.js', function() {
                         ]
                     }
                 }
-
-            //expect(JSON.stringify(ruleParser.parseDataTmpl(tmpl))).to.be.deep.equal(JSON.stringify(expected));
-            console.log(JSON.stringify(ruleParser.parseDataTmpl(tmpl)));
-            console.log("***************************");
             expect(ruleParser.parseDataTmpl(tmpl)).to.be.deep.equal(expected);
         });
     });

@@ -6,6 +6,9 @@ var person = {
 	email   : "string|'BBB'"
 }
 
+var personCount = "int|[100,200,300]";
+
 module.exports = {
-	'person' : person
+	'person' : person,
+	'personCount' : personCount
 }

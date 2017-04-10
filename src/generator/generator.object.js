@@ -2,7 +2,7 @@ function generate(objectRuleDesc, count, config) {
 	if(!count) count = 1;
 	let refDesc = objectRuleDesc.refDesc;
 	if(refDesc) {
-        
+
 		if(count == 1) {
 			return true;
 		}else{
