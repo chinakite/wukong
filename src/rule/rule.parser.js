@@ -18,6 +18,55 @@ const objectRule = require('./rule.object');
  */
 function parseDataTmpl(dataTmplDef) {
 	var tmplDesc = {};
+	if(util.isString(dataTmplDef)) {
+		tmplDesc['dataType'] = "string";
+		let dataDesc = parseStringRule(dataTmplDef);
+		tmplDesc['desc'] = dataDesc;
+	}else if(util.isArray(dataTmplDef)) {
+		tmplDesc['dataType'] = "array";
+		let dataDesc = {};
+		for(let i=0; i<rule.length; i++) {
+			let arrEleRule = rule[i];
+			let eleDesc = {};
+			eleDesc['dataType'] = 'object';
+			let objRuleDesc = parseDataTmpl(arrEleRule);
+			eleDesc['desc'] = objRuleDesc;
+			arrayRuleDesc.push(eleDesc);
+		}
+
+
+	}else{
+		tmplDesc['dataType'] == "object";
+		let dataDesc = {};
+		for(let prop in dataTmplDef) {
+			let rule = dataTmplDef[prop];
+			let ruleDesc;
+			if(util.isString(rule)) {
+				ruleDesc = parseStringRule(rule);
+			}else if(util.isArray(rule)) {
+				ruleDesc={};
+				ruleDesc['dataType'] = 'array';
+				let arrayRuleDesc = [];
+				for(let i=0; i<rule.length; i++) {
+					let arrEleRule = rule[i];
+					let eleDesc = {};
+					eleDesc['dataType'] = 'object';
+					let objRuleDesc = parseDataTmpl(arrEleRule);
+					eleDesc['desc'] = objRuleDesc;
+					arrayRuleDesc.push(eleDesc);
+				}
+				ruleDesc['desc'] = arrayRuleDesc;
+			}else{
+				ruleDesc = {};
+				ruleDesc['dataType'] = 'object';
+				let objRuleDesc = parseDataTmpl(rule);
+				ruleDesc['desc'] = objRuleDesc;
+			}
+
+			dataDesc[prop] = ruleDesc;
+		}
+		tmplDesc['desc'] = dataDesc;
+	}
 	for(let prop in dataTmplDef) {
 		let rule = dataTmplDef[prop];
 		let ruleDesc;
