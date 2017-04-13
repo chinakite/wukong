@@ -19,9 +19,7 @@ const objectRule = require('./rule.object');
 function parseDataTmpl(dataTmplDef) {
 	var tmplDesc = {};
 	if(util.isString(dataTmplDef)) {
-		tmplDesc['dataType'] = "string";
-		let dataDesc = parseStringRule(dataTmplDef);
-		tmplDesc['desc'] = dataDesc;
+		tmplDesc = parseStringRule(dataTmplDef);
 	}else if(util.isArray(dataTmplDef)) {
 		tmplDesc['dataType'] = "array";
 		let arrayRuleDesc = [];
