@@ -9,6 +9,35 @@ var objectGen = require('./generator.object');
 
 function generate(tmpl, count, config) {
 	return new Promise(async function(resolve, reject){
+		if(tmpl) {
+			var dataType = tmpl['dataType'];
+			var result;
+			if(dataType == 'array') {
+
+			}else if(dataType == 'object') {
+				result = objectGen.generate(tmpl.desc, count, config);
+			}else if(dataType == 'int') {
+				result = intGen.generate(tmpl.desc, count, config);
+			}else if(dataType == 'boolean'){
+				result = boolGen.generate(tmpl.desc, count, config);
+			}else if(dataType == 'string'){
+				result = await stringGen.generate(tmpl.desc, count, config);
+			}else if(dataType == 'date'){
+				result = dateGen.generate(tmpl.desc, count, config);
+			}else if(dataType == 'datetime'){
+				result = datetimeGen.generate(tmpl.desc, count, config);
+			}else if(dataType == 'time'){
+				result = timeGen.generate(tmpl.desc, count, config);
+			}else if(dataType == 'float'){
+				result = floatGen.generate(tmpl.desc, count, config);
+			}
+
+			resolve(result);
+		}else{
+			reject("Can not found data template");
+		}
+
+/*
 		if(!count) {
 			count = 1;
 		}
@@ -55,6 +84,7 @@ function generate(tmpl, count, config) {
 		}else{
 			reject("Can not found data template");
 		}
+*/
 	});
 }
 

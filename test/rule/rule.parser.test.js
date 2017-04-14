@@ -152,8 +152,8 @@ describe('Test rule.parser.js', function() {
             }
             expect(ruleParser.parseDataTmpl(tmpl)).to.be.deep.equal(expected);
         });
-        /*
-        it('Test string & array rule', function() {
+
+        it('Test object rule with string and array props', function() {
             let tmpl = {
                 int : 'int|100+1',
                 arr : [
@@ -169,6 +169,8 @@ describe('Test rule.parser.js', function() {
             };
 
             let expected = {
+                dataType : "object",
+                desc : {
                     "int": {
                         "dataType": "int",
                         "desc": {
@@ -222,9 +224,10 @@ describe('Test rule.parser.js', function() {
                             }
                         ]
                     }
-                }
+                }    
+            }
             expect(ruleParser.parseDataTmpl(tmpl)).to.be.deep.equal(expected);
         });
-        */
+
     });
 });
