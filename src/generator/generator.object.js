@@ -8,8 +8,15 @@ var floatGen = require('./generator.float');
 
 function generate(objectRuleDesc, count, config) {
 	return new Promise(async function(resolve, reject){
-		if(!count) count = 1;
+		console.log("******* GEN Object start *********");
+		if(!count && count < 1) count = 1;
+		let result;
+		if(count > 1) {
+			result = [];
+		}
 		let refDesc = objectRuleDesc.refDesc;
+		console.log("******* GEN Object refDesc *********");
+		console.log(refDesc);
 		if(refDesc) {
 			// if(count == 1) {
 			// 	return true;
@@ -21,28 +28,45 @@ function generate(objectRuleDesc, count, config) {
 			// 	return result;
 			// }
 		}else{
-			let data = {};
-			for(var prop in objectRuleDesc) {
-				var ruleDesc = tmpl[prop];
+			let dataCache = {};
+			for(let prop in objectRuleDesc) {
+				let ruleDesc = objectRuleDesc[prop];
 				if(ruleDesc.dataType == 'int') {
-					data[prop] = intGen.generate(ruleDesc.desc, count, config);
+					dataCache[prop] = intGen.generate(ruleDesc.desc, count, config);
 				}else if(ruleDesc.dataType == 'boolean'){
-					data[prop] = boolGen.generate(ruleDesc.desc, count, config);
+					dataCache[prop] = boolGen.generate(ruleDesc.desc, count, config);
 				}else if(ruleDesc.dataType == 'string'){
-					data[prop] = await stringGen.generate(ruleDesc.desc, count, config);
+					dataCache[prop] = await stringGen.generate(ruleDesc.desc, count, config);
 				}else if(ruleDesc.dataType == 'date'){
-					data[prop] = dateGen.generate(ruleDesc.desc, count, config);
+					dataCache[prop] = dateGen.generate(ruleDesc.desc, count, config);
 				}else if(ruleDesc.dataType == 'datetime'){
-					data[prop] = datetimeGen.generate(ruleDesc.desc, count, config);
+					dataCache[prop] = datetimeGen.generate(ruleDesc.desc, count, config);
 				}else if(ruleDesc.dataType == 'time'){
-					data[prop] = timeGen.generate(ruleDesc.desc, count, config);
+					dataCache[prop] = timeGen.generate(ruleDesc.desc, count, config);
 				}else if(ruleDesc.dataType == 'float'){
-					data[prop] = floatGen.generate(ruleDesc.desc, count, config);
+					dataCache[prop] = floatGen.generate(ruleDesc.desc, count, config);
 				}else if(ruleDesc.dataType == 'object'){
-					data[prop] = objectGen.generate(ruleDesc.desc, count, config);
+					//data[prop] = objectGen.generate(ruleDesc.desc, count, config);
 				}
 			}
+
+
+			console.log("******* GEN Object dataCache *********  " + dataCache);
+
+			if(count == 1) {
+				result = dataCache;
+			}else{
+				for(let i=0; i<count; i++) {
+					let data = {};
+					for(let prop in objectRuleDesc) {
+						data[prop] = dataCache[prop][i];
+					}
+					result.push(data);
+				}
+			}
+			console.log("******* GEN Object *********  " + result);
 		}
+		resolve(result);
 	});
 
 }
