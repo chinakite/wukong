@@ -1,6 +1,7 @@
 const expect  = require('chai').expect;
 const gen = require("../../src/generator/generator");
 
+/*
 describe('Test generator.js', function() {
     describe('Test simple boolean data', function() {
         var boolTmpl = {
@@ -18,3 +19,4 @@ describe('Test generator.js', function() {
         });
     });
 });
+*/
