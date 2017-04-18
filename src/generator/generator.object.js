@@ -8,15 +8,12 @@ var floatGen = require('./generator.float');
 
 function generate(objectRuleDesc, count, config) {
 	return new Promise(async function(resolve, reject){
-		console.log("******* GEN Object start *********");
 		if(!count && count < 1) count = 1;
 		let result;
 		if(count > 1) {
 			result = [];
 		}
 		let refDesc = objectRuleDesc.refDesc;
-		console.log("******* GEN Object refDesc *********");
-		console.log(refDesc);
 		if(refDesc) {
 			// if(count == 1) {
 			// 	return true;
@@ -50,9 +47,6 @@ function generate(objectRuleDesc, count, config) {
 				}
 			}
 
-
-			console.log("******* GEN Object dataCache *********  " + dataCache);
-
 			if(count == 1) {
 				result = dataCache;
 			}else{
@@ -64,7 +58,6 @@ function generate(objectRuleDesc, count, config) {
 					result.push(data);
 				}
 			}
-			console.log("******* GEN Object *********  " + result);
 		}
 		resolve(result);
 	});
