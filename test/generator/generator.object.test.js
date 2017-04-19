@@ -21,11 +21,23 @@ describe('Test generator.object.js', function() {
                             "policy": "today",
                             "format": "yyyy-MM-dd"
                         }
+                    },
+                    "obj": {
+                        "dataType": "object",
+                        "desc": {
+                            "name": {
+                                "dataType": "string",
+                                "desc": {
+                                    "policy": "fixed",
+                                    "value": "WUKONG"
+                                }
+                            }
+                        }
                     }
                 };
 
                 var singleExpected = {
-                    "int": 100, "date" : "2017-04-18"
+                    "int": 100, "date" : "2017-04-18", "obj": {"name": "WUKONG"}
                 };
 
                 var config = {};
@@ -35,7 +47,7 @@ describe('Test generator.object.js', function() {
            })
            .then(done);
         });
-
+/*
         it('Generate 5 results', function(done) {
             new Promise(async function (resolve) {
                 var objRuleDesc = {
@@ -81,5 +93,6 @@ describe('Test generator.object.js', function() {
            })
            .then(done);
         });
+        */
     });
 });
