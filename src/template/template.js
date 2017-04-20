@@ -2,6 +2,7 @@ const fs         = require('fs');
 const gaze       = require('gaze');
 
 const ruleEngine = require('../rule/rule.engine');
+const ruleParser = require("../rule/rule.parser");
 
 const logger = require('tracer').colorConsole({
     level: 'debug'
@@ -44,12 +45,8 @@ function parseTemplates(filepath, tmplSet) {
 
     let data = require(filepath);
     for(let name in data) {
-        var tmplDef = data[name];
-        var tmplDesc = {};
-        for(var prop in tmplDef) {
-            var ruleExpr = tmplDef[prop];
-            tmplDesc[prop] = ruleEngine.parseRule(ruleExpr);
-        }
+        let tmplDef = data[name];
+        let tmplDesc = ruleParser.parseDataTmpl(tmplDef);
         tmplSet[name] = tmplDesc;
         count++;
     }

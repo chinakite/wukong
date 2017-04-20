@@ -7,8 +7,7 @@ var func = {
 	openTime : "time|now",
 	role : "string|'超级管理员'",
 	like : "string|my|display_monitor_brand",
-	real : "float|0.5+0.02",
-	children : "array|@funcChildren|10"
+	real : "float|0.5+0.02"
 }
 
 var funcChildren = {

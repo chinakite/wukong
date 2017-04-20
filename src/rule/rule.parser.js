@@ -10,6 +10,7 @@ const datetimeRule = require("./rule.datetime");
 const timeRule = require("./rule.time");
 const floatRule = require('./rule.float');
 const objectRule = require('./rule.object');
+const arrayRule = require('./rule.array');
 
 /*
  * int - min,max,start,step,random

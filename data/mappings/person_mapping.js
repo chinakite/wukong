@@ -1,6 +1,6 @@
 var mappings = {
     	'/persons' : {
-			type : 'data',
+			type : 'tmpl',
             dataKey : 'persons',
             delay : 5000
 		}

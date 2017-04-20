@@ -6,6 +6,7 @@ var datetimeGen = require('./generator.datetime');
 var timeGen = require('./generator.time');
 var floatGen = require('./generator.float');
 var objectGen = require('./generator.object');
+var arrayGen = require('./generator.array');
 
 function generate(tmpl, count, config) {
 	return new Promise(async function(resolve, reject){
@@ -13,9 +14,9 @@ function generate(tmpl, count, config) {
 			var dataType = tmpl['dataType'];
 			var result;
 			if(dataType == 'array') {
-
+				result = await arrayGen.generate(tmpl.desc, 1, config);
 			}else if(dataType == 'object') {
-				result = objectGen.generate(tmpl.desc, count, config);
+				result = await objectGen.generate(tmpl.desc, count, config);
 			}else if(dataType == 'int') {
 				result = intGen.generate(tmpl.desc, count, config);
 			}else if(dataType == 'boolean'){

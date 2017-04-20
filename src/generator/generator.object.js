@@ -1,10 +1,10 @@
-var intGen = require('./generator.int');
-var boolGen = require('./generator.boolean');
-var stringGen = require('./generator.string');
-var dateGen = require('./generator.date');
-var datetimeGen = require('./generator.datetime');
-var timeGen = require('./generator.time');
-var floatGen = require('./generator.float');
+let intGen = require('./generator.int');
+let boolGen = require('./generator.boolean');
+let stringGen = require('./generator.string');
+let dateGen = require('./generator.date');
+let datetimeGen = require('./generator.datetime');
+let timeGen = require('./generator.time');
+let floatGen = require('./generator.float');
 
 function generate(objectRuleDesc, count, config) {
 	return new Promise(async function(resolve, reject){
@@ -43,7 +43,7 @@ function generate(objectRuleDesc, count, config) {
 				}else if(ruleDesc.dataType == 'float'){
 					dataCache[prop] = floatGen.generate(ruleDesc.desc, count, config);
 				}else if(ruleDesc.dataType == 'object'){
-					//data[prop] = objectGen.generate(ruleDesc.desc, count, config);
+					dataCache[prop] = await generate(ruleDesc.desc, count, config);
 				}
 			}
 

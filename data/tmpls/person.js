@@ -1,4 +1,4 @@
-var person = {
+var persons = {
 	id      : "int|100+1",
 	name    : "string|'AAA'",
 	birth   : "date|'1981-01-01'",
@@ -9,6 +9,6 @@ var person = {
 var personCount = "int|[100,200,300]";
 
 module.exports = {
-	'person' : person,
+	'persons' : persons,
 	'personCount' : personCount
 }
