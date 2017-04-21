@@ -5,6 +5,7 @@ let dateGen = require('./generator.date');
 let datetimeGen = require('./generator.datetime');
 let timeGen = require('./generator.time');
 let floatGen = require('./generator.float');
+let arrayGen = require('./generator.array');
 
 function generate(objectRuleDesc, count, config) {
 	return new Promise(async function(resolve, reject){
@@ -44,6 +45,8 @@ function generate(objectRuleDesc, count, config) {
 					dataCache[prop] = floatGen.generate(ruleDesc.desc, count, config);
 				}else if(ruleDesc.dataType == 'object'){
 					dataCache[prop] = await generate(ruleDesc.desc, count, config);
+				}else if(ruleDesc.dataType == 'array') {
+					dataCache[prop] = await arrayGen.generate(ruleDesc.desc, count, config);
 				}
 			}
 

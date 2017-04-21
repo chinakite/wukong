@@ -1,8 +1,12 @@
 const expect  = require('chai').expect;
 const objectGen = require("../../src/generator/generator.object");
+const stringUtil = require("../../src/util/string.util");
 
 
 describe('Test generator.object.js', function() {
+    var curDate = new Date();
+    var today = curDate.getFullYear() + "-" + stringUtil.zeroize((curDate.getMonth()+1)) + "-" + stringUtil.zeroize(curDate.getDate());
+
     describe('Test policy [object definitions]', function() {
         it('Generate one result', function(done) {
             new Promise(async function (resolve) {
@@ -49,7 +53,7 @@ describe('Test generator.object.js', function() {
                 };
 
                 var singleExpected = {
-                    "int": 100, "date" : "2017-04-20", "obj": {"name": "WUKONG", "subObj":{"subObjName": "Xiao WUKONG"}}
+                    "int": 100, "date" : today, "obj": {"name": "WUKONG", "subObj":{"subObjName": "Xiao WUKONG"}}
                 };
 
                 var config = {};
@@ -94,19 +98,19 @@ describe('Test generator.object.js', function() {
 
                 var multiExpected = [
                     {
-                        "int": 100, "date" : "2017-04-20", "obj": {"name": "WUKONG"}
+                        "int": 100, "date" : today, "obj": {"name": "WUKONG"}
                     },
                     {
-                        "int": 101, "date" : "2017-04-20", "obj": {"name": "WUKONG"}
+                        "int": 101, "date" : today, "obj": {"name": "WUKONG"}
                     },
                     {
-                        "int": 102, "date" : "2017-04-20", "obj": {"name": "WUKONG"}
+                        "int": 102, "date" : today, "obj": {"name": "WUKONG"}
                     },
                     {
-                        "int": 103, "date" : "2017-04-20", "obj": {"name": "WUKONG"}
+                        "int": 103, "date" : today, "obj": {"name": "WUKONG"}
                     },
                     {
-                        "int": 104, "date" : "2017-04-20", "obj": {"name": "WUKONG"}
+                        "int": 104, "date" : today, "obj": {"name": "WUKONG"}
                     }
                 ];
 

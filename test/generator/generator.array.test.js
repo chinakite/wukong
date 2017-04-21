@@ -1,8 +1,11 @@
 const expect  = require('chai').expect;
 const arrayGen = require("../../src/generator/generator.array");
-
+const stringUtil = require("../../src/util/string.util");
 
 describe('Test generator.array.js', function() {
+    var curDate = new Date();
+    var today = curDate.getFullYear() + "-" + stringUtil.zeroize((curDate.getMonth()+1)) + "-" + stringUtil.zeroize(curDate.getDate());
+
     describe('Test policy [object definitions]', function() {
         it('Generate result by plain object definitions', function(done) {
             new Promise(async function (resolve) {
@@ -69,10 +72,10 @@ describe('Test generator.array.js', function() {
 
                 var multiExpected = [
                     {
-                        "int": 100, "date" : "2017-04-20", "obj": {"name": "WUKONG 1"}
+                        "int": 100, "date" : today, "obj": {"name": "WUKONG 1"}
                     },
                     {
-                        "int": 1000, "date" : "2017-04-20", "obj": {"name": "WUKONG 2"}
+                        "int": 1000, "date" : today, "obj": {"name": "WUKONG 2"}
                     }
                 ];
 
