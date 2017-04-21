@@ -2,6 +2,7 @@ const expect  = require('chai').expect;
 const dateGen = require("../../src/generator/generator.date");
 
 describe('Test generator.date.js', function() {
+
     var zeroize = function (value, length) {
         if (!length) length = 2;
         value = String(value);
@@ -77,4 +78,5 @@ describe('Test generator.date.js', function() {
             expect(dateGen.generate(dateRuleDesc, 5, config)).to.deep.equal([today, today, today, today, today]);
         });
     });
+
 });

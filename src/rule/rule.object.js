@@ -22,6 +22,12 @@ class ObjectRuleDesc {
     set refDesc(_refDesc) {
         this._refDesc = _refDesc;
     }
+	get propDescs() {
+		return this._propDescs;
+	}
+	set propDescs(_propDescs) {
+		this._propDescs = _propDescs;
+	}
 }
 
 module.exports = {

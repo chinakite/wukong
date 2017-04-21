@@ -50,4 +50,5 @@ describe('Test generator.boolean.js', function() {
             expect(boolGen.generate(boolRuleDesc, 5, config).length).to.be.equal(5);
         });
     });
+
 });

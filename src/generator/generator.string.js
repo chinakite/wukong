@@ -31,7 +31,7 @@ function generate(stringRuleDesc, count, config) {
 			}
 		}else if(policy == 'fixed'){
 			if(count == 1) {
-				return stringRuleDesc.value;
+				resolve(stringRuleDesc.value);
 			}else{
 				let result = [];
 				for(var i=0; i<count; i++) {
