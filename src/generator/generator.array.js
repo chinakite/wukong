@@ -4,10 +4,6 @@ const objectGen = require('./generator.object');
 let   logOption    = {level: 'debug'};
 const logger        = require('tracer').colorConsole(logOption);
 
-logger.debug("***************************");
-logger.debug(objectGen);
-logger.debug("***************************");
-
 function generate(arrayRuleDesc, count, config) {
 	return new Promise(async function(resolve, reject){
 		try {
@@ -18,8 +14,7 @@ function generate(arrayRuleDesc, count, config) {
 	        }else{
 	            for(let i=0; i<arrayRuleDesc.length; i++) {
 	                let objRuleDesc = arrayRuleDesc[i];
-					logger.debug(objectGen);
-	                let obj = await objectGen.generate(objRuleDesc, 1, config);
+	                let obj = await objectGen.generate(objRuleDesc.desc, 1, config);
 	                result.push(obj);
 	            }
 	        }
@@ -32,6 +27,6 @@ function generate(arrayRuleDesc, count, config) {
     });
 }
 
-module.exports = {
+module.exports.__proto__ = {
 	"generate" : generate
 }

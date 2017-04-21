@@ -46,7 +46,9 @@ function generate(objectRuleDesc, count, config) {
 				}else if(ruleDesc.dataType == 'object'){
 					dataCache[prop] = await generate(ruleDesc.desc, count, config);
 				}else if(ruleDesc.dataType == 'array') {
+					console.log(">>>>>>>>>> " + JSON.stringify(ruleDesc));
 					dataCache[prop] = await arrayGen.generate(ruleDesc.desc, count, config);
+					console.log("<<<<<<<<<< " + JSON.stringify(dataCache[prop]));
 				}
 			}
 
@@ -64,9 +66,8 @@ function generate(objectRuleDesc, count, config) {
 		}
 		resolve(result);
 	});
-
 }
 
-module.exports = {
+module.exports.__proto__ = {
 	"generate" : generate
 }

@@ -8,6 +8,10 @@ var floatGen = require('./generator.float');
 var objectGen = require('./generator.object');
 var arrayGen = require('./generator.array');
 
+//TODO extends Default Options
+let   logOption    = {level: 'debug'};
+const logger        = require('tracer').colorConsole(logOption);
+
 function generate(tmpl, count, config) {
 	return new Promise(async function(resolve, reject){
 		if(tmpl) {
@@ -89,6 +93,6 @@ function generate(tmpl, count, config) {
 	});
 }
 
-module.exports = {
+module.exports.__proto__ = {
 	"generate" : generate
 }
