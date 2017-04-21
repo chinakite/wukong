@@ -5,11 +5,13 @@ function generate(floatRuleDesc, count, config) {
 	let policy = floatRuleDesc.policy;
 	if(policy == 'step') {
 		if(count == 1) {
-			return floatRuleDesc.min;
+			let n = floatRuleDesc.min.toFixed(floatRuleDesc.precision);
+			return n;
 		}else{
 			let result = [];
 			for(var i=0; i<count; i++) {
-				var n = floatRuleDesc.min + (i*floatRuleDesc.step);
+				let n = floatRuleDesc.min + (i*floatRuleDesc.step);
+				n = n.toFixed(floatRuleDesc.precision);
 				result.push(n);
 			}
 			return result;
@@ -18,11 +20,14 @@ function generate(floatRuleDesc, count, config) {
 		var dataset = floatRuleDesc.dataset;
 		if(dataset && dataset.length > 0) {
 			if(count == 1) {
+				let n = random.pick(dataset);
+				n = n.toFixed(floatRuleDesc.precision);
 				return random.pick(dataset);
 			}else{
 				let result = [];
 				for(var i=0; i<count; i++) {
-					var n = random.pick(dataset);
+					let n = random.pick(dataset);
+					n = n.toFixed(floatRuleDesc.precision);
 					result.push(n);
 				}
 				return result;
