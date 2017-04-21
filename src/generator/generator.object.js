@@ -7,6 +7,10 @@ let timeGen = require('./generator.time');
 let floatGen = require('./generator.float');
 let arrayGen = require('./generator.array');
 
+//TODO extends Default Options
+let   logOption    = {level: 'debug'};
+const logger        = require('tracer').colorConsole(logOption);
+
 function generate(objectRuleDesc, count, config) {
 	return new Promise(async function(resolve, reject){
 		if(!count && count < 1) count = 1;
@@ -14,7 +18,13 @@ function generate(objectRuleDesc, count, config) {
 		if(count > 1) {
 			result = [];
 		}
+
+		logger.debug("******* Object ----------");
+		logger.debug(objectRuleDesc);
+		logger.debug("******* end ----------");
+
 		let refDesc = objectRuleDesc.refDesc;
+
 		if(refDesc) {
 			// if(count == 1) {
 			// 	return true;

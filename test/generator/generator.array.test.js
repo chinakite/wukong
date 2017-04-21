@@ -10,65 +10,71 @@ describe('Test generator.array.js', function() {
         it('Generate result by plain object definitions', function(done) {
             new Promise(async function (resolve) {
                 var arrRuleDesc = [
-                    {
-                        "int": {
-                            "dataType": "int",
-                            "desc": {
-                                "policy": "step",
-                                "min": 100,
-                                "step": 1
-                            }
-                        },
-                        "date": {
-                            "dataType": "date",
-                            "desc": {
-                                "policy": "today",
-                                "format": "yyyy-MM-dd"
-                            }
-                        },
-                        "obj": {
+                        {
                             "dataType": "object",
                             "desc": {
-                                "name": {
-                                    "dataType": "string",
+                                "int": {
+                                    "dataType": "int",
                                     "desc": {
-                                        "policy": "fixed",
-                                        "value": "WUKONG 1"
+                                        "policy": "step",
+                                        "min": 100,
+                                        "step": 1
+                                    }
+                                },
+                                "date": {
+                                    "dataType": "date",
+                                    "desc": {
+                                        "policy": "today",
+                                        "format": "yyyy-MM-dd"
+                                    }
+                                },
+                                "obj": {
+                                    "dataType": "object",
+                                    "desc": {
+                                        "name": {
+                                            "dataType": "string",
+                                            "desc": {
+                                                "policy": "fixed",
+                                                "value": "WUKONG 1"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "dataType": "object",
+                            "desc": {
+                                "int": {
+                                    "dataType": "int",
+                                    "desc": {
+                                        "policy": "step",
+                                        "min": 1000,
+                                        "step": 1
+                                    }
+                                },
+                                "date": {
+                                    "dataType": "date",
+                                    "desc": {
+                                        "policy": "today",
+                                        "format": "yyyy-MM-dd"
+                                    }
+                                },
+                                "obj": {
+                                    "dataType": "object",
+                                    "desc": {
+                                        "name": {
+                                            "dataType": "string",
+                                            "desc": {
+                                                "policy": "fixed",
+                                                "value": "WUKONG 2"
+                                            }
+                                        }
                                     }
                                 }
                             }
                         }
-                    },
-                    {
-                        "int": {
-                            "dataType": "int",
-                            "desc": {
-                                "policy": "step",
-                                "min": 1000,
-                                "step": 1
-                            }
-                        },
-                        "date": {
-                            "dataType": "date",
-                            "desc": {
-                                "policy": "today",
-                                "format": "yyyy-MM-dd"
-                            }
-                        },
-                        "obj": {
-                            "dataType": "object",
-                            "desc": {
-                                "name": {
-                                    "dataType": "string",
-                                    "desc": {
-                                        "policy": "fixed",
-                                        "value": "WUKONG 2"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                ];
+                    ];
 
                 var multiExpected = [
                     {
