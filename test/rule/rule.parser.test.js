@@ -224,9 +224,13 @@ describe('Test rule.parser.js', function() {
                             }
                         ]
                     }
-                }    
+                }
             }
             expect(ruleParser.parseDataTmpl(tmpl)).to.be.deep.equal(expected);
+        });
+
+        it('Test object rule with string and object props', function() {
+            
         });
 
     });

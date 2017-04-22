@@ -123,4 +123,14 @@ describe('Test generator.object.js', function() {
         });
 
     });
+
+    describe('Test policy [string and reference definitions]', function() {
+        it('Generate one result', function(done) {
+            new Promise(async function (resolve) {
+                var objRuleDesc = "object|@address";
+                resolve();
+            })
+            .then(done);
+         });
+     });
 });
