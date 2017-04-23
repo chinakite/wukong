@@ -1,3 +1,5 @@
+const template      = require('../template/template');
+
 let intGen = require('./generator.int');
 let boolGen = require('./generator.boolean');
 let stringGen = require('./generator.string');
@@ -26,15 +28,7 @@ function generate(objectRuleDesc, count, config) {
 		let refDesc = objectRuleDesc.refDesc;
 
 		if(refDesc) {
-			// if(count == 1) {
-			// 	return true;
-			// }else{
-			// 	let result = [];
-			// 	for(var i=0; i<count; i++) {
-			// 		result.push(true);
-			// 	}
-			// 	return result;
-			// }
+			let refTmpl =
 		}else{
 			let dataCache = {};
 			for(let prop in objectRuleDesc) {

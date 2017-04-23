@@ -229,8 +229,32 @@ describe('Test rule.parser.js', function() {
             expect(ruleParser.parseDataTmpl(tmpl)).to.be.deep.equal(expected);
         });
 
-        it('Test object rule with string and object props', function() {
-            
+        it('Test object rule with string object definitions', function() {
+            let tmpl = {
+                int : 'int|100+1',
+                obj : "object|@subObj"
+            };
+
+            let expected = {
+                dataType : "object",
+                desc : {
+                    "int": {
+                        "dataType": "int",
+                        "desc": {
+                            "_policy": "step",
+                            "_min": 100,
+                            "_step": 1
+                        }
+                    },
+                    "obj": {
+                        "dataType": "object",
+                        "desc": {
+                            "_refDesc": "subObj"
+                        }
+                    }
+                }
+            }
+            expect(ruleParser.parseDataTmpl(tmpl)).to.be.deep.equal(expected);
         });
 
     });
