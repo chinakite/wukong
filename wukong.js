@@ -26,7 +26,6 @@ const isProduction  = process.env.NODE_ENV === 'production';
 
 let mappings = {};		//store mappings
 let dataSet  = {};		//store defined datas
-let tmplSet  = {};		//store templates
 
 function startup() {
 	//1. Load mappings.
@@ -41,7 +40,7 @@ function startup() {
 
 	//3. Load data templates
 	logger.info("Loading templates ... ");
-	let tmplCount = template.loadTemplates(config, tmplSet);
+	let tmplCount = template.loadTemplates(config);
 	logger.info("%d templates are loaded. ", tmplCount);
 }
 
@@ -68,6 +67,9 @@ app.use(async (ctx, next) => {
 		let mapping = mappings[url];
 		let responseBody;
 		let data;
+
+		let tmplSet = template.getTmplSet();
+
 		if(mapping.type == 'tmpl') {
 			var tmpl = tmplSet[mapping.dataKey];
 			logger.debug("Find data template for url [ %s ] : ", url, tmpl);

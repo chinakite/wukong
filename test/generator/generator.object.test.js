@@ -2,6 +2,7 @@ const expect  = require('chai').expect;
 const objectGen = require("../../src/generator/generator.object");
 const stringUtil = require("../../src/util/string.util");
 
+const template      = require('../../src/template/template');
 
 describe('Test generator.object.js', function() {
     var curDate = new Date();
@@ -127,7 +128,41 @@ describe('Test generator.object.js', function() {
     describe('Test policy [string and reference definitions]', function() {
         it('Generate one result', function(done) {
             new Promise(async function (resolve) {
-                var objRuleDesc = "object|@address";
+                var objRuleDesc = {
+                    "refDesc": "address"
+                };
+
+                tmplSet = {
+                    "address": {
+                        "dataType": "object",
+                        "desc": {
+                            "int": {
+                                "dataType": "int",
+                                "desc": {
+                                    "policy": "step",
+                                    "min": 100,
+                                    "step": 1
+                                }
+                            },
+                            "date": {
+                                "dataType": "date",
+                                "desc": {
+                                    "policy": "today",
+                                    "format": "yyyy-MM-dd"
+                                }
+                            }
+                        }
+                    }
+                };
+                template.setTmplSet(tmplSet);
+
+                var singleExpected = {
+                    "int": 100, "date" : today
+                };
+
+                var config = {};
+                let result = await objectGen.generate(objRuleDesc, 1, config);
+                expect(result).to.be.deep.equal(singleExpected);
                 resolve();
             })
             .then(done);

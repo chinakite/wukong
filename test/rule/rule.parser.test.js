@@ -257,5 +257,33 @@ describe('Test rule.parser.js', function() {
             expect(ruleParser.parseDataTmpl(tmpl)).to.be.deep.equal(expected);
         });
 
+        it('Test array rule with string definitions', function() {
+            let tmpl = {
+                int : 'int|100+1',
+                arr : "array|@subObj|5"
+            };
+
+            let expected = {
+                dataType : "object",
+                desc : {
+                    "int": {
+                        "dataType": "int",
+                        "desc": {
+                            "_policy": "step",
+                            "_min": 100,
+                            "_step": 1
+                        }
+                    },
+                    "arr": {
+                        "dataType": "array",
+                        "desc": {
+                            "_refDesc": "subObj",
+                            "_count": 5
+                        }
+                    }
+                }
+            }
+            expect(ruleParser.parseDataTmpl(tmpl)).to.be.deep.equal(expected);
+        });
     });
 });

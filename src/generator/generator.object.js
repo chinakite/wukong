@@ -21,14 +21,12 @@ function generate(objectRuleDesc, count, config) {
 			result = [];
 		}
 
-		logger.debug("******* Object ----------");
-		logger.debug(objectRuleDesc);
-		logger.debug("******* end ----------");
-
 		let refDesc = objectRuleDesc.refDesc;
 
 		if(refDesc) {
-			let refTmpl =
+			let tmplSet = template.getTmplSet();
+			let refTmpl = tmplSet[refDesc];
+			result = await generate(refTmpl.desc, count, config);
 		}else{
 			let dataCache = {};
 			for(let prop in objectRuleDesc) {
@@ -50,9 +48,7 @@ function generate(objectRuleDesc, count, config) {
 				}else if(ruleDesc.dataType == 'object'){
 					dataCache[prop] = await generate(ruleDesc.desc, count, config);
 				}else if(ruleDesc.dataType == 'array') {
-					console.log(">>>>>>>>>> " + JSON.stringify(ruleDesc));
 					dataCache[prop] = await arrayGen.generate(ruleDesc.desc, count, config);
-					console.log("<<<<<<<<<< " + JSON.stringify(dataCache[prop]));
 				}
 			}
 

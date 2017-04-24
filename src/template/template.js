@@ -8,7 +8,9 @@ const logger = require('tracer').colorConsole({
     level: 'debug'
 });
 
-function loadTemplates(config, tmplSet) {
+let _tmplSet  = {};		//store templates
+
+function loadTemplates(config) {
     let tmplCount = 0;
 
     let storageConfig = config.storage;
@@ -29,42 +31,42 @@ function loadTemplates(config, tmplSet) {
 
 				// 处理每个js文件:
 				for (var file of tmplFiles) {
-                    tmplCount += parseTemplates(dir + '/' + file, tmplSet);
+                    tmplCount += parseTemplates(dir + '/' + file, _tmplSet);
 				}
 			});
 		}
 
-        watchTemplates(tmplsDir, tmplSet);
+        watchTemplates(tmplsDir, _tmplSet);
 	}
 
     return tmplCount;
 }
 
-function parseTemplates(filepath, tmplSet) {
+function parseTemplates(filepath) {
     let count = 0;
 
     let data = require(filepath);
     for(let name in data) {
         let tmplDef = data[name];
         let tmplDesc = ruleParser.parseDataTmpl(tmplDef);
-        tmplSet[name] = tmplDesc;
+        _tmplSet[name] = tmplDesc;
         count++;
     }
 
     return count;
 }
 
-function removeTemplates(filepath, tmplSet){
+function removeTemplates(filepath){
     let count = 0;
     let data = require(filepath);
     for(let name in data) {
-        delete tmplSet[name];
+        delete _tmplSet[name];
         count++;
     }
     return count;
 }
 
-function watchTemplates(tmplsDir, tmplSet) {
+function watchTemplates(tmplsDir) {
     // Watch all .js files/dirs in process.cwd()
     gaze(tmplsDir + '/**/*.js', function(err, watcher) {
         // On file changed
@@ -72,26 +74,36 @@ function watchTemplates(tmplsDir, tmplSet) {
             delete require.cache[require.resolve(filepath)];
 
             logger.debug('%s was changed', filepath);
-            let count = parseTemplates(filepath, tmplSet);
+            let count = parseTemplates(filepath, _tmplSet);
             logger.info('%s templates are reloaded.', count);
         });
 
         //On file added
         this.on('added', function(filepath) {
             logger.debug('%s was added.', filepath);
-            let count = parseTemplates(filepath, tmplSet);
+            let count = parseTemplates(filepath, _tmplSet);
             logger.info('%s new templates are loaded.', count);
         });
 
         // On file deleted
         this.on('deleted', function(filepath) {
             logger.debug('%s was deleted.', filepath);
-            let count = removeTemplates(filepath, tmplSet);
+            let count = removeTemplates(filepath, _tmplSet);
             logger.info('%s templates are removed.', count);
         });
     });
 }
 
+function getTmplSet() {
+    return _tmplSet;
+}
+
+function setTmplSet(tmplSet) {
+    _tmplSet = tmplSet;
+}
+
 module.exports = {
-    "loadTemplates" : loadTemplates
+    "loadTemplates" : loadTemplates,
+    "getTmplSet" : getTmplSet,
+    "setTmplSet" : setTmplSet
 }

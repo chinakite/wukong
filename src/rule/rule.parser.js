@@ -99,6 +99,9 @@ function parseStringRule(rule) {
 		}else if(dataType == 'object') {
 			var objectRuleDesc = objectRule.parseRule(ruleItemStrs);
 			ruleDesc.desc = objectRuleDesc;
+		}else if(dataType == 'array') {
+			var arrayRuleDesc = arrayRule.parseRule(ruleItemStrs);
+			ruleDesc.desc = arrayRuleDesc;
 		}
 	}
 
