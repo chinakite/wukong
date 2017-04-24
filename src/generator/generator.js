@@ -12,7 +12,7 @@ var arrayGen = require('./generator.array');
 let   logOption    = {level: 'debug'};
 const logger        = require('tracer').colorConsole(logOption);
 
-function generate(tmpl, count, config) {
+function generate(tmpl, count, config, ctx) {
 	return new Promise(async function(resolve, reject){
 		if(tmpl) {
 			var dataType = tmpl['dataType'];

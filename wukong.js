@@ -74,7 +74,7 @@ app.use(async (ctx, next) => {
 			var tmpl = tmplSet[mapping.dataKey];
 			logger.debug("Find data template for url [ %s ] : ", url, tmpl);
 			try {
-				data = await gen.generate(tmpl, mapping.count, config);
+				data = await gen.generate(tmpl, mapping.count, config, ctx);
 			}catch(err) {
 				throw err;
 			}
