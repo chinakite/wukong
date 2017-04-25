@@ -26,7 +26,8 @@ describe('Test rule.parser.js', function() {
             	string_fixed : "string|'超级管理员'",
             	string_my : "string|my|display_monitor_brand",
             	float : "float|0.5+0.02",
-                obj : "object|@another_tmpl"
+                obj : "object|@another_tmpl",
+                req : "request|param|p1"
             };
 
             let expected = {
@@ -101,6 +102,13 @@ describe('Test rule.parser.js', function() {
                             "dataType": "object",
                             "desc": {
                                 "_refDesc": "another_tmpl"
+                            }
+                        },
+                        "req": {
+                            "dataType": "request",
+                            "desc": {
+                                "_policy": "param",
+                                "_attr": "p1"
                             }
                         }
                     }
