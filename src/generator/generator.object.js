@@ -8,12 +8,13 @@ let datetimeGen = require('./generator.datetime');
 let timeGen = require('./generator.time');
 let floatGen = require('./generator.float');
 let arrayGen = require('./generator.array');
+let reqGen = require('./generator.request');
 
 //TODO extends Default Options
 let   logOption    = {level: 'debug'};
 const logger        = require('tracer').colorConsole(logOption);
 
-function generate(objectRuleDesc, count, config) {
+function generate(objectRuleDesc, count, config, ctx) {
 	return new Promise(async function(resolve, reject){
 		if(!count && count < 1) count = 1;
 		let result;
@@ -46,9 +47,11 @@ function generate(objectRuleDesc, count, config) {
 				}else if(ruleDesc.dataType == 'float'){
 					dataCache[prop] = floatGen.generate(ruleDesc.desc, count, config);
 				}else if(ruleDesc.dataType == 'object'){
-					dataCache[prop] = await generate(ruleDesc.desc, count, config);
+					dataCache[prop] = await generate(ruleDesc.desc, count, config, ctx);
 				}else if(ruleDesc.dataType == 'array') {
-					dataCache[prop] = await arrayGen.generate(ruleDesc.desc, count, config);
+					dataCache[prop] = await arrayGen.generate(ruleDesc.desc, count, config, ctx);
+				}else if(ruleDesc.dataType == 'request') {
+					dataCache[prop] = await reqGen.generate(ruleDesc.desc, count, config, ctx);
 				}
 			}
 

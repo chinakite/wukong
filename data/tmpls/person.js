@@ -18,8 +18,14 @@ var parent = {
 	name    : "string|'PPP'"
 }
 
+var aperson = {
+	id : "request|param|id",
+	name : "string|'WUKONG'"
+}
+
 module.exports = {
 	'persons' : persons,
 	'personCount' : personCount,
-	'parent' : parent
+	'parent' : parent,
+	"aperson": aperson
 }

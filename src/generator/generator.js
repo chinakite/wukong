@@ -7,6 +7,7 @@ var timeGen = require('./generator.time');
 var floatGen = require('./generator.float');
 var objectGen = require('./generator.object');
 var arrayGen = require('./generator.array');
+var reqGen = require('./generator.request');
 
 //TODO extends Default Options
 let   logOption    = {level: 'debug'};
@@ -18,9 +19,9 @@ function generate(tmpl, count, config, ctx) {
 			var dataType = tmpl['dataType'];
 			var result;
 			if(dataType == 'array') {
-				result = await arrayGen.generate(tmpl.desc, 1, config);
+				result = await arrayGen.generate(tmpl.desc, 1, config, ctx);
 			}else if(dataType == 'object') {
-				result = await objectGen.generate(tmpl.desc, count, config);
+				result = await objectGen.generate(tmpl.desc, count, config, ctx);
 			}else if(dataType == 'int') {
 				result = intGen.generate(tmpl.desc, count, config);
 			}else if(dataType == 'boolean'){
@@ -35,6 +36,8 @@ function generate(tmpl, count, config, ctx) {
 				result = timeGen.generate(tmpl.desc, count, config);
 			}else if(dataType == 'float'){
 				result = floatGen.generate(tmpl.desc, count, config);
+			}else if(dataType == 'request') {
+				result = reqGen.generate(tmpl.desc, count, config, ctx);
 			}
 
 			resolve(result);

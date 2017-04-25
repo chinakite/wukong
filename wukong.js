@@ -52,7 +52,11 @@ app.use(staticFile('/static/', __dirname + '/static'));
 
 //route /man to router
 app.use(async (ctx, next) => {
-	let url = ctx.request.url;
+	logger.debug("+++++++++++++++++++");
+	logger.debug(ctx.request.path);
+	logger.debug("-------------------");
+
+	let url = ctx.request.path;
     logger.debug("Request url : [ %s ]", url);
 
     //some restful request is parsed endsWith slash. If it's not root context,
