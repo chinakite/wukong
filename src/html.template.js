@@ -1,6 +1,6 @@
 const nunjucks = require('nunjucks');
 
-const logger        = require('../log/log');
+const logger        = require('./log/log');
 
 function createEnv(path, opts) {
     var
