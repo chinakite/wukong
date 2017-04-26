@@ -13,6 +13,8 @@ const objectRule = require('./rule.object');
 const arrayRule = require('./rule.array');
 const reqRule = require('./rule.request');
 
+const logger        = require('../log/log');
+
 /*
  * int - min,max,start,step,random
  *

@@ -7,6 +7,8 @@ const DATE_POLICY_NOW        = "now";
 
 const DATE_DEFAULT_FORMAT    = "yyyy-MM-dd";
 
+const logger        = require('../log/log');
+
 function parseRule(ruleItemStrs) {
 	return parseDateRule(ruleItemStrs);
 }

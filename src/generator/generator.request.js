@@ -1,3 +1,5 @@
+const logger        = require('../log/log');
+
 function generate(reqRuleDesc, count, config, ctx) {
     if(!count) count = 1;
 

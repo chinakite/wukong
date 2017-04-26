@@ -4,6 +4,8 @@ const TIME_POLICY_NOW        = "now";
 
 const TIME_DEFAULT_FORMAT    = "HH:mm:ss";
 
+const logger        = require('../log/log');
+
 function parseRule(ruleItemStrs) {
 	return parseTimeRule(ruleItemStrs);
 }

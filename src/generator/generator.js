@@ -9,9 +9,7 @@ var objectGen = require('./generator.object');
 var arrayGen = require('./generator.array');
 var reqGen = require('./generator.request');
 
-//TODO extends Default Options
-let   logOption    = {level: 'debug'};
-const logger        = require('tracer').colorConsole(logOption);
+const logger        = require('../log/log');
 
 function generate(tmpl, count, config, ctx) {
 	return new Promise(async function(resolve, reject){

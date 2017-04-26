@@ -3,6 +3,8 @@ const BOOL_POLICY_RANDOM   = "random";
 const BOOL_POLICY_TRUE     = "true";
 const BOOL_POLICY_FALSE    = "false";
 
+const logger        = require('../log/log');
+
 function parseRule(ruleItemStrs) {
 	return parseBooleanRule(ruleItemStrs);
 }

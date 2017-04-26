@@ -1,5 +1,7 @@
 const nunjucks = require('nunjucks');
 
+const logger        = require('../log/log');
+
 function createEnv(path, opts) {
     var
         autoescape = opts.autoescape === undefined ? true : opts.autoescape,

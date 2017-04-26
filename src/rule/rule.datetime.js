@@ -4,6 +4,8 @@ const DATETIME_POLICY_NOW        = "now";
 
 const DATETIME_DEFAULT_FORMAT    = "yyyy-MM-dd HH:mm:ss";
 
+const logger        = require('../log/log');
+
 function parseRule(ruleItemStrs) {
 	return parseDatetimeRule(ruleItemStrs);
 }

@@ -8,6 +8,8 @@ const STRING_POLICY_REGEX    = "regex";
 const STRING_POLICY_FIXED    = "fixed";
 const STRING_POLICY_MY       = "my";
 
+const logger        = require('../log/log');
+
 var regexUtil = require('../util/regex.util');
 
 function parseRule(ruleItemStrs) {

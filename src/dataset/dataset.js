@@ -1,9 +1,7 @@
 const fs     = require('fs');
 const gaze   = require('gaze');
 
-const logger = require('tracer').colorConsole({
-    level: 'debug'
-});
+const logger        = require('../log/log');
 
 function loadDatas(config, dataSet) {
     let dataDefCount = 0;

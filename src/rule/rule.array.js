@@ -1,5 +1,7 @@
 const REG_COUNT			= /^(\d+)$/g;
 
+const logger        = require('../log/log');
+
 var regexUtil = require('../util/regex.util');
 
 function parseRule(ruleItemStrs) {

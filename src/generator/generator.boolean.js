@@ -1,5 +1,7 @@
 var random = require("random-js")();
 
+const logger        = require('../log/log');
+
 function generate(boolRuleDesc, count, config) {
 	if(!count) count = 1;
 	let policy = boolRuleDesc.policy;

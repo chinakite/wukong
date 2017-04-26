@@ -1,3 +1,5 @@
+const logger        = require('../log/log');
+
 function parseRule(ruleItemStrs) {
 	return parseObjectRule(ruleItemStrs);
 }

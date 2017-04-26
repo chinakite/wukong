@@ -4,9 +4,7 @@ const gaze       = require('gaze');
 const ruleEngine = require('../rule/rule.engine');
 const ruleParser = require("../rule/rule.parser");
 
-const logger = require('tracer').colorConsole({
-    level: 'debug'
-});
+const logger        = require('../log/log');
 
 let _tmplSet  = {};		//store templates
 

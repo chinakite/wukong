@@ -2,6 +2,8 @@ const path = require('path');
 const mime = require('mime');
 const fs = require('mz/fs');
 
+const logger        = require('../log/log');
+
 // url: '/static/' eg.
 // dir: __dirname + '/static' eg.
 function staticFiles(url, dir) {

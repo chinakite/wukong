@@ -1,6 +1,8 @@
 var random = require("random-js")();
 require('datejs');
 
+const logger        = require('../log/log');
+
 function generate(timeRuleDesc, count, config) {
 	if(!count) count = 1;
 	let policy = timeRuleDesc.policy;

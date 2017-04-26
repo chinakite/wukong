@@ -13,12 +13,7 @@ const dataset       = require('./src/dataset/dataset');
 const template      = require('./src/template/template');
 const gen           = require('./src/generator/generator');
 
-//TODO extends Default Options
-let   logOption     = config.log;
-if(!logOption) {
-	logOption = {level: 'info'}
-}
-const logger        = require('tracer').colorConsole(config.log);
+const logger        = require('./src/log/log');
 
 const app           = new Koa();
 
@@ -52,10 +47,6 @@ app.use(staticFile('/static/', __dirname + '/static'));
 
 //route /man to router
 app.use(async (ctx, next) => {
-	logger.debug("+++++++++++++++++++");
-	logger.debug(ctx.request.path);
-	logger.debug("-------------------");
-
 	let url = ctx.request.path;
     logger.debug("Request url : [ %s ]", url);
 

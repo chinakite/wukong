@@ -1,5 +1,7 @@
 const supportedDataType = ['int', 'string', 'boolean', 'bool', 'date', 'datetime', 'time', 'float', 'object'];
 
+const logger        = require('../log/log');
+
 let intRule = require("./rule.int");
 let boolRule = require("./rule.boolean");
 let stringRule = require("./rule.string");

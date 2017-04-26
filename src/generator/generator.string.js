@@ -2,6 +2,8 @@ const random   = require("random-js")();
 const RandExp  = require("randexp");
 const fileUtil = require("../util/file.util");
 
+const logger        = require('../log/log');
+
 function generate(stringRuleDesc, count, config) {
 	return new Promise(async function(resolve, reject){
 		if(!count) count = 1;

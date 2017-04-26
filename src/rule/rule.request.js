@@ -1,5 +1,7 @@
 const supportedPolicy = ['header', 'param', 'cookie', 'url', 'querystring', 'body'];
 
+const logger        = require('../log/log');
+
 function parseRule(ruleItemStrs) {
 	return parseRequestRule(ruleItemStrs);
 }

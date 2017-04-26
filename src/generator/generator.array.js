@@ -2,9 +2,7 @@ const template      = require('../template/template');
 
 const objectGen = require('./generator.object');
 
-//TODO extends Default Options
-let   logOption    = {level: 'debug'};
-const logger        = require('tracer').colorConsole(logOption);
+const logger        = require('../log/log');
 
 function generate(arrayRuleDesc, count, config) {
 	return new Promise(async function(resolve, reject){

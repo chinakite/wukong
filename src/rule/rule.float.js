@@ -8,6 +8,8 @@ const REG_FLOAT_PRECISION         = /^\.(\d+)/g;
 const FLOAT_POLICY_STEP     = "step";
 const FLOAT_POLICY_RANDOM   = "random";
 
+const logger        = require('../log/log');
+
 var regexUtil = require('../util/regex.util');
 
 function parseRule(ruleItemStrs) {
