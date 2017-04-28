@@ -13,6 +13,8 @@ const dataset       = require('./src/dataset/dataset');
 const template      = require('./src/template/template');
 const gen           = require('./src/generator/generator');
 
+const swaggerLoader = require('./src/intergration/swagger/api.swagger.loader');
+
 const logger        = require('./src/log/log');
 
 const app           = new Koa();
@@ -37,6 +39,16 @@ function startup() {
 	logger.info("Loading templates ... ");
 	let tmplCount = template.loadTemplates(config);
 	logger.info("%d templates are loaded. ", tmplCount);
+
+	if(config.swagger && config.swagger.enabled) {
+		let swaggerApis = config.swagger.apis;
+		if(swaggerApis) {
+			for(let i=0; i<swaggerApis.length; i++) {
+				let apiUrl = swaggerApis[i];
+				swaggerLoader.load(apiUrl);
+			}
+		}
+	}
 }
 
 startup();

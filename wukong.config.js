@@ -10,6 +10,12 @@ const config = {
 	},
     log : {
         level : 'debug'
+    },
+    swagger : {
+        enabled : true,
+        apis : [
+            "http://localhost:8033/v2/api-docs"
+        ]
     }
 };
 
