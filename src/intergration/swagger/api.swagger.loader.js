@@ -14,7 +14,7 @@ function load(url, mappings, tmplSet) {
                         let schema = api[method]['responses']['200']['schema'];
                         if(schema) {
                             if(schema.type == 'boolean') {
-                                
+
                             }
                         }else{
 

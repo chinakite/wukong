@@ -63,6 +63,8 @@ app.use(async (ctx, next) => {
 	let url = ctx.request.path;
     logger.debug("Request url : [ %s ]", url);
 
+	let reqMethod = ctx.request.method;
+
     //some restful request is parsed endsWith slash. If it's not root context,
     //drop it!
 	if(url && url.length > 1 && url.endsWith('/')) {
@@ -72,7 +74,7 @@ app.use(async (ctx, next) => {
 	if(url.startsWith('/__man__')) {   //route management url
 		await next();
 	}else{     //route mock data url
-		let mapping = mappings[url];
+		let mapping = mappings[url][reqMethod];
 		let responseBody;
 		let data;
 

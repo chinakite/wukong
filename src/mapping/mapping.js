@@ -39,13 +39,24 @@ function parseMapping(filepath, mappings) {
     let data = require(filepath);
     if (data.mappings) {
         for (let url in data.mappings) {
-            mappings[url] = data.mappings[url];
-            if (!(data.mappings[url].state)) {
-                mappings[url].state = 'success';
+            let method = data.mappings["method"];
+            if(!method) {
+                method = "GET";
+            }else{
+                method = method.toUpperCase();
             }
-            if (data.mappings[url].count == undefined) {
-                mappings[url].count = 1;
+
+            let mapping = data.mappings[url];
+            if (!(mapping.state)) {
+                mapping.state = 'success';
             }
+            if (mapping.count == undefined) {
+                mapping.count = 1;
+            }
+            if(!mappings[url]) {
+                mappings[url] = {};
+            }
+            mappings[url][method] = mapping;
             count++;
         }
     }
@@ -58,7 +69,15 @@ function removeMapping(filepath, mappings) {
     let data = require(filepath);
     if (data.mappings) {
         for (let url in data.mappings) {
-            delete mappings[url];
+            let method = data.mappings["method"];
+            if(!method) {
+                method = "GET";
+            }else{
+                method = method.toUpperCase();
+            }
+            if(mappings[url] && mappings[url][method]) {
+                delete mappings[url][method];
+            }
             count++;
         }
     }
