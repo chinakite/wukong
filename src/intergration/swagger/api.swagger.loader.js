@@ -1,7 +1,7 @@
 const request = require('request');
 const logger  = require('../../log/log');
 
-function load(url) {
+function load(url, mappings, tmplSet) {
     return new Promise(function (resolve, reject) {
         request(url, function (error, response, body) {
             if(error) {
@@ -13,7 +13,11 @@ function load(url) {
                     for(let method in api) {
                         let schema = api[method]['responses']['200']['schema'];
                         if(schema) {
-                            
+                            if(schema.type == 'boolean') {
+                                
+                            }
+                        }else{
+
                         }
                     }
                 }

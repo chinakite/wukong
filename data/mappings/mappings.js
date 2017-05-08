@@ -7,6 +7,15 @@ var mappings = {
 				success : {"code": 200, "data": "@respData"}
 			}
 		},
+		'/modules' : {
+			type : 'data',
+			method : "post",
+			dataKey : 'modules',
+			count: 1,
+			wrapper : {
+				success : {"code": 200, "data": "@respData"}
+			}
+		},
 		'/funcs' : {
 			type : 'tmpl',
 			dataKey : 'func',

@@ -39,13 +39,14 @@ function startup() {
 	logger.info("Loading templates ... ");
 	let tmplCount = template.loadTemplates(config);
 	logger.info("%d templates are loaded. ", tmplCount);
+	let tmplSet = template.getTmplSet();
 
 	if(config.swagger && config.swagger.enabled) {
 		let swaggerApis = config.swagger.apis;
 		if(swaggerApis) {
 			for(let i=0; i<swaggerApis.length; i++) {
 				let apiUrl = swaggerApis[i];
-				swaggerLoader.load(apiUrl);
+				swaggerLoader.load(apiUrl, mappings, tmplSet);
 			}
 		}
 	}

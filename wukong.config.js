@@ -14,7 +14,7 @@ const config = {
     swagger : {
         enabled : true,
         apis : [
-            "http://localhost:8033/v2/api-docs"
+            "http://localhost:8080/v2/api-docs"
         ]
     }
 };
