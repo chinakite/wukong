@@ -22,11 +22,9 @@ function load(url, mappings) {
                     for(let method in apiDesc) {
                         let schema = paths[api][method]['responses']['200']['schema'];
                         if(schema) {
-                            if(schema.type == 'boolean') {
-                                let tmplDef = "boolean|random";
-                                let tmplDesc = ruleParser.parseDataTmpl(tmplDef);
-                                _swaggerTmplSet[api+"_"+method.toUpperCase()] = tmplDesc;
-                            }
+                            let tmplDef = toTmplExpr(schema, json);
+                            let tmplDesc = ruleParser.parseDataTmpl(tmplDef);
+                            _swaggerTmplSet[api+"_"+method.toUpperCase()] = tmplDesc;
                         }else{
                             let tmplDef = "empty";
                             let tmplDesc = ruleParser.parseDataTmpl(tmplDef);
@@ -42,6 +40,48 @@ function load(url, mappings) {
             }
         });
 	});
+}
+
+function toTmplExpr(schema, json) {
+    let tmplDef;
+    if(schema["$ref"]) {
+        let ref = schema["$ref"];
+        if(ref.startsWith("#/definitions/")) {
+            ref = ref.replace("#/definitions/", "");
+            let refDef = json['definitions'][ref];
+            if(refDef.type == 'object') {
+                let refProps = refDef.properties;
+                tmplDef = {};
+                for(let prop in refProps) {
+                    tmplDef[prop] = toTmplExpr(refProps[prop], json);
+                }
+            }
+        }
+    }else if(schema.type == "array") {
+        var itemSchema = schema['items'];
+        tmplDef = [];
+        tmplDef.push(toTmplExpr(itemSchema, json));
+    }else if(schema.type == 'boolean') {
+        tmplDef = "boolean|random";
+    }else if(schema.type == 'string') {
+        if(schema.format && schema.format == 'date-time') {
+            tmplDef = "datetime|now";
+        }else{
+            tmplDef = "string|regex|/[a-zA-Z]{10}/";
+        }
+    }else if(schema.type == 'integer') {
+        tmplDef = "int|1~100";
+    }else if(schema.type == 'number') {
+        if(schema.format && (schema.format == 'float' || schema.format == 'double')) {
+            tmplDef = "float|0.1~10.0";
+        }
+    }else if(schema.type == 'object') {
+        let mapKey = "demoKey";
+        let additionalProperties = schema['additionalProperties'];
+        tmplDef = {};
+        tmplDef[mapKey] = toTmplExpr(additionalProperties, json);
+    }
+    return tmplDef;
 }
 
 function getSwaggerTmplSet() {
