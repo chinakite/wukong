@@ -46,7 +46,7 @@ function startup() {
 		if(swaggerApis) {
 			for(let i=0; i<swaggerApis.length; i++) {
 				let apiUrl = swaggerApis[i];
-				swaggerLoader.load(apiUrl, mappings, tmplSet);
+				swaggerLoader.load(apiUrl, mappings);
 			}
 		}
 	}
@@ -83,6 +83,14 @@ app.use(async (ctx, next) => {
 		if(mapping.type == 'tmpl') {
 			var tmpl = tmplSet[mapping.dataKey];
 			logger.debug("Find data template for url [ %s ] : ", url, tmpl);
+			try {
+				data = await gen.generate(tmpl, mapping.count, config, ctx);
+			}catch(err) {
+				throw err;
+			}
+		}else if(mapping.type == 'swagger'){
+			let swaggerTmplSet = swaggerLoader.getSwaggerTmplSet();
+			var tmpl = swaggerTmplSet[url + "_" + reqMethod.toUpperCase()];
 			try {
 				data = await gen.generate(tmpl, mapping.count, config, ctx);
 			}catch(err) {

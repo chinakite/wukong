@@ -8,6 +8,7 @@ var floatGen = require('./generator.float');
 var objectGen = require('./generator.object');
 var arrayGen = require('./generator.array');
 var reqGen = require('./generator.request');
+var emptyGen = require('./generator.empty');
 
 const logger        = require('../log/log');
 
@@ -36,6 +37,8 @@ function generate(tmpl, count, config, ctx) {
 				result = floatGen.generate(tmpl.desc, count, config);
 			}else if(dataType == 'request') {
 				result = reqGen.generate(tmpl.desc, count, config, ctx);
+			}else if(dataType == 'empty') {
+				result = emptyGen.generate(tmpl.desc, count, config, ctx);
 			}
 
 			resolve(result);

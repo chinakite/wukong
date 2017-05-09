@@ -1,4 +1,4 @@
-const supportedDataType = ['int', 'string', 'boolean', 'bool', 'date', 'datetime', 'time', 'float', 'object', 'array', 'request'];
+const supportedDataType = ['int', 'string', 'boolean', 'bool', 'date', 'datetime', 'time', 'float', 'object', 'array', 'request', 'empty'];
 
 const util = require("../util/is.util");
 
@@ -12,6 +12,7 @@ const floatRule = require('./rule.float');
 const objectRule = require('./rule.object');
 const arrayRule = require('./rule.array');
 const reqRule = require('./rule.request');
+const emptyRule = require('./rule.empty');
 
 const logger        = require('../log/log');
 
@@ -108,6 +109,9 @@ function parseStringRule(rule) {
 		}else if(dataType == 'request') {
 			var reqRuleDesc = reqRule.parseRule(ruleItemStrs);
 			ruleDesc.desc = reqRuleDesc;
+		}else if(dataType == 'empty') {
+			var emptyRuleDesc = emptyRule.parseRule(ruleItemStrs);
+			ruleDesc.desc = emptyRuleDesc;
 		}
 	}
 
