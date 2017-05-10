@@ -16,6 +16,10 @@
     <link href="/static/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <!-- Custom Theme Style -->
     <link href="/static/plugins/gentelella/css/custom.min.css" rel="stylesheet">
+
+    {% block style %}
+
+    {% endblock %}
 </head>
 
 <body class="nav-md">
@@ -49,7 +53,7 @@
                             <h3>MENU</h3>
                             <ul class="nav side-menu">
                                 <li><a><i class="fa fa-home"></i> Dashboard </a></li>
-                                <li><a href="/__man__/mappings"><i class="fa fa-edit"></i> Mappings </a></li>
+                                <li><a href="/__man__/mappingmgr"><i class="fa fa-edit"></i> Mappings </a></li>
                                 <li><a><i class="fa fa-desktop"></i> UI Elements <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
                                         <li><a href="general_elements.html">General Elements</a></li>
@@ -231,7 +235,7 @@
     <!-- FastClick -->
     <script src="/static/plugins/fastclick/lib/fastclick.js"></script>
     <!-- Custom Theme Scripts -->
-    <script src="/static/plugins/gentelella/js/custom.min.js"></script>
+    <script src="/static/plugins/gentelella/js/custom.js"></script>
 
     {% block scripts %}
 

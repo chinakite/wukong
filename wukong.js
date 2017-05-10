@@ -3,6 +3,7 @@ const router        = require('koa-router')();
 const bodyParser    = require('koa-bodyparser');
 const favicon       = require('koa-favicon');
 const nunjucks      = require('nunjucks');
+const Base64        = require('js-base64').Base64;
 
 const staticFile    = require('./src/static.file');
 const templating    = require('./src/html.template');
@@ -151,7 +152,55 @@ router.get('/__man__/mappingmgr', async (ctx, next) => {
     ctx.render('mapping/mappings.html', {});
 });
 router.get('/__man__/mappings', async (ctx, next) => {
+	let result = [];
+	for(let api in mappings) {
+		let apiMappingDef = mappings[api];
+		for(let method in apiMappingDef) {
+			let methodDef = apiMappingDef[method];
+			let item = {};
+			item['url'] = api;
+			item['method'] = method;
+			item['type'] = methodDef['type'];
+			item['dataKey'] = methodDef['dataKey'];
+			item['count'] = methodDef['count'];
+			result.push(item);
+		}
+	}
+	ctx.response.set({
+		"Content-Type": "application/json",
+		'Cache-Control': 'no-cache'
+	});
+	ctx.response.body = result;
+});
+router.get('/__man__/mapping/:key', async (ctx, next) => {
+	let key = ctx.params.key;
+	key = Base64.decode(key);
+	let parameters = key.split(/\s/);
+	let url = parameters[0];
+	let method = parameters[1];
 
+	ctx.response.set({
+		"Content-Type": "application/json",
+		'Cache-Control': 'no-cache'
+	});
+	ctx.response.body = mappings[url][method];
+});
+router.post('/__man__/mapping/:key', async (ctx, next) => {
+	let key = ctx.params.key;
+	key = Base64.decode(key);
+	let parameters = key.split(/\s/);
+	let url = parameters[0];
+	let method = parameters[1];
+
+	let postData = ctx.request.body;
+	mappings[url][method]['type'] = postData['type'];
+	mappings[url][method]['dataKey'] = postData['dataKey'];
+	mappings[url][method]['count'] = postData['count'];
+
+	ctx.response.set({
+		'Cache-Control': 'no-cache'
+	});
+	ctx.response.body = 'true';
 });
 
 // startup server

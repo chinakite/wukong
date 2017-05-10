@@ -39,7 +39,6 @@
                                 <th>Type</th>
                                 <th>Data Key</th>
                                 <th>Count</th>
-                                <th>State</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -52,10 +51,90 @@
         </div>
     </div>
 </div>
+
+<div id="mappingInfoModal" class="modal fade in" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="myModalLabel">Mapping Info</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal form-label-left" novalidate="">
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="inputUrl">URL <span class="required">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="inputUrl" class="form-control col-md-7 col-xs-12" name="inputUrl" placeholder="Mapping URL e.g /users" required="required" type="text">
+                        </div>
+                        <div class="alert">URL is required.</div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="inputMethod">Method <span class="required">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <select id="inputMethod" name="inputMethod" class="form-control col-md-7 col-xs-12">
+                                <option value="GET">GET</option>
+                                <option value="POST">POST</option>
+                                <option value="DELETE">DELETE</option>
+                                <option value="PUT">PUT</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="inputType">Type <span class="required">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <select id="inputType" name="inputType" class="form-control col-md-7 col-xs-12">
+                                <option value="tmpl">Template</option>
+                                <option value="data">Data</option>
+                                <option value="swagger">Swagger</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="inputDataKey">Data Key <span class="required">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="inputDataKey" class="form-control col-md-7 col-xs-12" name="inputDataKey" placeholder="Data definition e.g user" required="required" type="text">
+                        </div>
+                        <div class="alert">Data Key is required.</div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="inputCount">Count <span class="required">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="inputCount" class="form-control col-md-7 col-xs-12" name="inputCount" placeholder="Count e.g 1 or 10" required="required" type="number">
+                        </div>
+                        <div class="alert">Data Key is required.</div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="MAPPING_MGR.saveMapping();">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block scripts %}
 <!-- Datatables -->
 <script src="/static/plugins/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="/static/plugins/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<!-- Nunjucks -->
+<script src="/static/plugins/nunjucks/nunjucks.min.js"></script>
+<!-- Base64 -->
+<script src="/static/plugins/base64/base64.min.js"></script>
+<!-- PNotify -->
+<script src="/static/plugins/pnotify/dist/pnotify.js"></script>
+<script src="/static/plugins/pnotify/dist/pnotify.buttons.js"></script>
+<script src="/static/plugins/pnotify/dist/pnotify.nonblock.js"></script>
+<!-- Page Script -->
+<script src="/static/js/mappings.mgr.js"></script>
+{% endblock %}
+
+{% block style %}
+<!-- Datatables -->
+<link href="/static/plugins/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+<!-- PNotify -->
+<link href="/static/plugins/pnotify/dist/pnotify.css" rel="stylesheet">
+<link href="/static/plugins/pnotify/dist/pnotify.buttons.css" rel="stylesheet">
+<link href="/static/plugins/pnotify/dist/pnotify.nonblock.css" rel="stylesheet">
 {% endblock %}
