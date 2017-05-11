@@ -1,3 +1,5 @@
+var mappingTbl;
+
 var MAPPING_MGR = {
     editMapping : function(url, method) {
         var key = url + " " + method;
@@ -38,10 +40,40 @@ var MAPPING_MGR = {
                     stack: {"dir1": "down", "dir2": "left", "push": "bottom", "spacing1": 25, "spacing2": 25, "context": $("body"), "modal": false}
                 });
                 $('#mappingInfoModal').modal('hide');
-                $('#mappingTbl').dataTable().destory();
+                mappingTbl.api().clear().draw();
                 initMappingTbl();
             }
         );
+    },
+    mock : function(url, method) {
+        $('#mockUrl').val(url);
+        $('#mockMethod').val(method);
+        $('#requestTitle').html('<div class="label label-success">' + method + '</div><span id="requestTitleUrl">'+ url +'</span>');
+        $('#requestModal').modal('show');
+    },
+    mockData : function() {
+        var url = $.trim($('#mockUrl').val());
+        var method = $.trim($('#mockMethod').val());
+
+        if(method == 'POST') {
+            $.post(
+                url,
+                {},
+                function(data) {
+                    $('#responseContent').html(jsonHighlight(JSON.stringify(data, null, 2)));
+                    $('.nav-tabs #response-tab').tab('show');
+                }
+            );
+        }else if(method == 'GET'){
+            $.get(
+                url,
+                {},
+                function(data) {
+                    $('#responseContent').html(jsonHighlight(JSON.stringify(data, null, 2)));
+                    $('.nav-tabs #response-tab').tab('show');
+                }
+            );
+        }
     }
 };
 
@@ -50,17 +82,54 @@ function initMappingTbl() {
         "/__man__/mappings",
         {},
         function(data) {
-            var html = nunjucks.render('../static/nm/mapping/mapping-row.nm', {"mappings": data});
-            $('#mappingTbl tbody').html(html);
-            $('#mappingTbl').dataTable({
+            mappingTbl = $('#mappingTbl').dataTable({
+                data : data,
                 paging : true,
-                columnDefs : [ {
-                    "targets": 5,
-                    "searchable": false,
-                    "orderable": false
-                } ]
+                destroy : true,
+                columnDefs : [
+                    {
+                        "targets": 0,
+                        "render": function ( data, type, full, meta ) {
+                            return full.url;
+                        }
+                    },
+                    {
+                        "targets": 1,
+                        "render": function ( data, type, full, meta ) {
+                            return full.method;
+                        }
+                    },
+                    {
+                        "targets": 2,
+                        "render": function ( data, type, full, meta ) {
+                            return full.type;
+                        }
+                    },
+                    {
+                        "targets": 3,
+                        "render": function ( data, type, full, meta ) {
+                            return full.dataKey;
+                        }
+                    },
+                    {
+                        "targets": 4,
+                        "render": function ( data, type, full, meta ) {
+                            return full.count;
+                        }
+                    },
+                    {
+                        "targets": 5,
+                        "searchable": false,
+                        "orderable": false,
+                        "render": function ( data, type, full, meta ) {
+                            var optHtml = '<a class="btn btn-xs btn-info" title="Edit" onclick="MAPPING_MGR.editMapping(\'' + full.url + '\', \'' + full.method + '\')"><i class="fa fa-edit"></i></a>'
+                                        + '<a class="btn btn-xs btn-warning" title="Mock" onclick="MAPPING_MGR.mock(\'' + full.url + '\', \' ' + full.method + '\')"><i class="fa fa-eye-slash"></i></a>'
+                                        ;
+                            return optHtml;
+                        }
+                    }
+                ]
             });
-            console.log("after datatables");
         }
     )
 }

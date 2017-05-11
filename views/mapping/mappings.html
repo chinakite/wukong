@@ -57,7 +57,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
-                <h4 class="modal-title" id="myModalLabel">Mapping Info</h4>
+                <h4 class="modal-title" id="mappingInfoModalLabel">Mapping Info</h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal form-label-left" novalidate="">
@@ -112,6 +112,61 @@
         </div>
     </div>
 </div>
+
+<div id="requestModal" class="modal fade in" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Mock Request</h4>
+            </div>
+            <div class="modal-body">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h4 id="requestTitle"></h4>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <input id="mockUrl" type="hidden">
+                        <input id="mockMethod" type="hidden">
+                        <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                            <ul class="nav nav-tabs bar_tabs" role="tablist">
+                                <li id="paramsTab" role="presentation" class="active"><a href="#tab_content1" id="params-tab" role="tab" data-toggle="tab" aria-expanded="false">Params</a>
+                                </li>
+                                <li id="headersTab" role="presentation"><a href="#tab_content2" role="tab" id="headers-tab" data-toggle="tab" aria-expanded="false">Headers</a>
+                                </li>
+                                <li id="bodyTab" role="presentation"><a href="#tab_content3" role="tab" id="body-tab" data-toggle="tab" aria-expanded="true">Body</a>
+                                </li>
+                                <li id="responseTab" role="presentation"><a href="#tab_content4" role="tab" id="response-tab" data-toggle="tab" aria-expanded="true">Response</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane fade active" id="tab_content1" aria-labelledby="params-tab">
+
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="headers-tab">
+
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="body-tab">
+
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade" id="tab_content4" aria-labelledby="response-tab">
+                                    <pre id="responseContent">
+                                        AAAAAAAAAAAABBBBBBBBBBBBBBBBB
+                                    </pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="MAPPING_MGR.mockData();">Send</button>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block scripts %}
@@ -127,6 +182,7 @@
 <script src="/static/plugins/pnotify/dist/pnotify.buttons.js"></script>
 <script src="/static/plugins/pnotify/dist/pnotify.nonblock.js"></script>
 <!-- Page Script -->
+<script src="/static/js/json.highlight.js"></script>
 <script src="/static/js/mappings.mgr.js"></script>
 {% endblock %}
 
@@ -137,4 +193,7 @@
 <link href="/static/plugins/pnotify/dist/pnotify.css" rel="stylesheet">
 <link href="/static/plugins/pnotify/dist/pnotify.buttons.css" rel="stylesheet">
 <link href="/static/plugins/pnotify/dist/pnotify.nonblock.css" rel="stylesheet">
+<!-- Page Style -->
+<link href="/static/css/json.highlight.css" rel="stylesheet">
+<link href="/static/css/mappings.mgr.css" rel="stylesheet">
 {% endblock %}
