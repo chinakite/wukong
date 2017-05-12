@@ -20,7 +20,7 @@ function load(url, mappings) {
                         mappings[api] = {};
                     }
                     for(let method in apiDesc) {
-                        let schema = paths[api][method]['responses']['200']['schema'];
+                        let schema = apiDesc[method]['responses']['200']['schema'];
                         if(schema) {
                             let tmplDef = toTmplExpr(schema, json);
                             let tmplDesc = ruleParser.parseDataTmpl(tmplDef);
@@ -30,11 +30,15 @@ function load(url, mappings) {
                             let tmplDesc = ruleParser.parseDataTmpl(tmplDef);
                             _swaggerTmplSet[api+"_"+method.toUpperCase()] = tmplDesc;
                         }
-                        mappings[api][method.toUpperCase()] = {
+                        let mappingDef = {
                             type : 'swagger',
                 			dataKey : api+"_"+method.toUpperCase(),
                 			count : 1
                         }
+                        if(apiDesc[method]['parameters']) {
+                            mappingDef['parameters'] = apiDesc[method]['parameters'];
+                        }
+                        mappings[api][method.toUpperCase()] = mappingDef;
                     }
                 }
             }
