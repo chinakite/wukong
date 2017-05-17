@@ -1,5 +1,5 @@
 const defaultLogOption = {
-    level: "info"
+    level: "debug"
 }
 
 const config        = require('../../wukong.config');

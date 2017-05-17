@@ -46,10 +46,26 @@ var MAPPING_MGR = {
         );
     },
     mock : function(url, method) {
-        $('#mockUrl').val(url);
-        $('#mockMethod').val(method);
-        $('#requestTitle').html('<div class="label label-success">' + method + '</div><span id="requestTitleUrl">'+ url +'</span>');
-        $('#requestModal').modal('show');
+        var key = url + " " + method;
+        key = Base64.encode(key);
+        $.get(
+            "/__man__/mapping/"+key,
+            {},
+            function(data) {
+                console.log(data);
+                if(data.type == 'swagger') {
+                    var params = data.parameters;
+                    if(params) {
+                        console.log(params);
+                    }
+                }
+
+                $('#mockUrl').val(url);
+                $('#mockMethod').val(method);
+                $('#requestTitle').html('<div class="label label-success">' + method + '</div><span id="requestTitleUrl">'+ url +'</span>');
+                $('#requestModal').modal('show');
+            }
+        );
     },
     mockData : function() {
         var url = $.trim($('#mockUrl').val());
@@ -123,7 +139,7 @@ function initMappingTbl() {
                         "orderable": false,
                         "render": function ( data, type, full, meta ) {
                             var optHtml = '<a class="btn btn-xs btn-info" title="Edit" onclick="MAPPING_MGR.editMapping(\'' + full.url + '\', \'' + full.method + '\')"><i class="fa fa-edit"></i></a>'
-                                        + '<a class="btn btn-xs btn-warning" title="Mock" onclick="MAPPING_MGR.mock(\'' + full.url + '\', \' ' + full.method + '\')"><i class="fa fa-eye-slash"></i></a>'
+                                        + '<a class="btn btn-xs btn-warning" title="Mock" onclick="MAPPING_MGR.mock(\'' + full.url + '\', \'' + full.method + '\')"><i class="fa fa-eye-slash"></i></a>'
                                         ;
                             return optHtml;
                         }

@@ -1,6 +1,7 @@
 const mapping       = require('../../mapping/mapping');
 const Base64        = require('js-base64').Base64;
 
+const logger        = require('../../log/log');
 
 let mappingMgr = async (ctx, next) => {
     var name = ctx.params.name;
@@ -33,6 +34,8 @@ let loadMappings = async (ctx, next) => {
 };
 
 let loadMapping = async (ctx, next) => {
+    logger.debug("GET /__man__/mapping/:key entry");
+
     let mappings = mapping.getMappings();
 
 	let key = ctx.params.key;
@@ -41,10 +44,14 @@ let loadMapping = async (ctx, next) => {
 	let url = parameters[0];
 	let method = parameters[1];
 
+    logger.debug("param url = " + url);
+    logger.debug("param method = " + method);
+
 	ctx.response.set({
 		"Content-Type": "application/json",
 		'Cache-Control': 'no-cache'
 	});
+    logger.debug("return " + mappings[url][method]);
 	ctx.response.body = mappings[url][method];
 };
 
