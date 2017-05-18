@@ -52,12 +52,16 @@ var MAPPING_MGR = {
             "/__man__/mapping/"+key,
             {},
             function(data) {
-                console.log(data);
                 if(data.type == 'swagger') {
                     var params = data.parameters;
                     if(params) {
-                        console.log(params);
+                        var paramHtml = nunjucks.render("../static/partial/mapping/request.parameter.vm", {params: params});
+                        $('#paramsTbl tbody').html(paramHtml);
+                    }else{
+                        $('#paramsTbl tbody').empty();
                     }
+                }else{
+                    $('#paramsTbl tbody').empty();
                 }
 
                 $('#mockUrl').val(url);
@@ -150,8 +154,18 @@ function initMappingTbl() {
     )
 }
 
+function initMockParamTbl(){
+    $('#paramsTbl').DataTable( {
+        "dom": '<"tbl-toolbar-right">rtip'
+    });
+
+    $("div.tbl-toolbar-right").html('<b>Custom tool bar! Text/images etc.</b>');
+}
+
 ;(function(document, window){
     $(document).ready(function(){
         initMappingTbl();
+
+        initMockParamTbl();
     });
 })(document, window);

@@ -1,0 +1,7 @@
+{% for param in params %}
+    <tr>
+        <td></td>
+        <td>{{param.name}}</td>
+        <td><input id="v_{{param.name}}" type="text"/></td>
+    </tr>
+{% endfor %}
