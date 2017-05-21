@@ -2,6 +2,6 @@
     <tr>
         <td></td>
         <td>{{param.name}}</td>
-        <td><input id="v_{{param.name}}" type="text"/></td>
+        <td><input id="v_{{param.name}}" type="text" rel="reqParam"/></td>
     </tr>
 {% endfor %}

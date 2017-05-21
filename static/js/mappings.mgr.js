@@ -1,4 +1,5 @@
 var mappingTbl;
+var editor;
 
 var MAPPING_MGR = {
     editMapping : function(url, method) {
@@ -75,10 +76,22 @@ var MAPPING_MGR = {
         var url = $.trim($('#mockUrl').val());
         var method = $.trim($('#mockMethod').val());
 
+        var reqParamEles = $('#paramsTbl input[rel=reqParam]');
+        var reqParam = {};
+        if(reqParamEles.length > 0) {
+            for(var i=0; i<reqParamEles.length; i++) {
+                var reqParamEle = $(reqParamEles[i]);
+                var eleId = reqParamEle.attr('id');
+                var paramName = eleId.substring(2, eleId.length);
+                var paramValue = reqParamEle.val();
+                reqParam[paramName] = paramValue;
+            }
+        }
+
         if(method == 'POST') {
             $.post(
                 url,
-                {},
+                reqParam,
                 function(data) {
                     $('#responseContent').html(jsonHighlight(JSON.stringify(data, null, 2)));
                     $('.nav-tabs #response-tab').tab('show');
@@ -87,7 +100,7 @@ var MAPPING_MGR = {
         }else if(method == 'GET'){
             $.get(
                 url,
-                {},
+                reqParam,
                 function(data) {
                     $('#responseContent').html(jsonHighlight(JSON.stringify(data, null, 2)));
                     $('.nav-tabs #response-tab').tab('show');
@@ -106,6 +119,10 @@ function initMappingTbl() {
                 data : data,
                 paging : true,
                 destroy : true,
+                select: {
+                    style:    'os',
+                    selector: 'td:first-child'
+                },
                 columnDefs : [
                     {
                         "targets": 0,
@@ -156,10 +173,8 @@ function initMappingTbl() {
 
 function initMockParamTbl(){
     $('#paramsTbl').DataTable( {
-        "dom": '<"tbl-toolbar-right">rtip'
+        "dom": '<"tbl-toolbar-right">rt'
     });
-
-    $("div.tbl-toolbar-right").html('<b>Custom tool bar! Text/images etc.</b>');
 }
 
 ;(function(document, window){
