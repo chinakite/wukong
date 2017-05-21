@@ -1,6 +1,6 @@
 {% for param in params %}
     <tr>
-        <td></td>
+        <td><select id="dt_{{param.name}}"><option>Text</option><option>File</option></select</td>
         <td>{{param.name}}</td>
         <td><input id="v_{{param.name}}" type="text" rel="reqParam"/></td>
     </tr>
