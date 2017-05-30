@@ -56,7 +56,10 @@ var MAPPING_MGR = {
                 if(data.type == 'swagger') {
                     var params = data.parameters;
                     if(params) {
-                        var paramHtml = nunjucks.render("../static/partial/mapping/request.parameter.vm", {params: params});
+                        for(let i=0; i<params.length; i++) {
+                            params[i]['___type___'] = 'swagger';
+                        }
+                        var paramHtml = nunjucks.render("../static/partial/mapping/request.keyvalue.vm", {params: params});
                         $('#paramsTbl tbody').html(paramHtml);
                     }else{
                         $('#paramsTbl tbody').empty();
