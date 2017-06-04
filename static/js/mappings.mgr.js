@@ -176,7 +176,8 @@ function initMappingTbl() {
 
 function initMockParamTbl(){
     $('#paramsTbl').DataTable( {
-        "dom": '<"tbl-toolbar-right">rt'
+        "dom": '<"tbl-toolbar-right">rt',
+        "ordering": false
     });
 }
 
