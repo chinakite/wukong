@@ -1,0 +1,8 @@
+<tr>
+    <td><a class="btn btn-xs" onclick="addEmptyRow(this, {{withType}});"><i class="fa fa-plus"></i></a><a class="btn btn-xs" onclick="removeCurRow(this);"><i class="fa fa-minus"></i></a></td>
+    {% if withType %}
+    <td><select class="form-control"><option>Text</option><option>File</option></select></td>
+    {% endif %}
+    <td><input type="text"/></td>
+    <td><input type="text" rel="reqParam"/></td>
+</tr>

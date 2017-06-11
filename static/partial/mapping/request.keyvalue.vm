@@ -1,6 +1,6 @@
 {% for param in params %}
     <tr>
-        <td><a class="btn btn-xs"><i class="fa fa-plus"></i></a><a class="btn btn-xs"><i class="fa fa-minus"></i></a></td>
+        <td><a class="btn btn-xs" onclick="addEmptyRow(this, {{withType}});"><i class="fa fa-plus"></i></a><a class="btn btn-xs" onclick="removeCurRow(this);"><i class="fa fa-minus"></i></a></td>
         <td><select class="form-control" id="dt_{{param.name}}"><option>Text</option><option>File</option></select></td>
         <td>{{param.name}}</td>
         <td><input id="v_{{param.name}}" type="text" rel="reqParam"/></td>

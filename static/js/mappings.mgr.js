@@ -59,7 +59,7 @@ var MAPPING_MGR = {
                         for(let i=0; i<params.length; i++) {
                             params[i]['___type___'] = 'swagger';
                         }
-                        var paramHtml = nunjucks.render("../static/partial/mapping/request.keyvalue.vm", {params: params});
+                        var paramHtml = nunjucks.render("../static/partial/mapping/request.keyvalue.vm", {params: params, withType: true});
                         $('#paramsTbl tbody').html(paramHtml);
                     }else{
                         $('#paramsTbl tbody').empty();
@@ -172,19 +172,52 @@ function initMappingTbl() {
             });
         }
     )
-}
+};
 
 function initMockParamTbl(){
     $('#paramsTbl').DataTable( {
         "dom": '<"tbl-toolbar-right">rt',
         "ordering": false
     });
-}
+};
+
+function initHeaderTbl(){
+    var emptyRowHtml = nunjucks.render("../static/partial/mapping/empty.request.keyvalue.vm", {withType: false});
+    $('#headerTbl tbody').append(emptyRowHtml);
+
+    $('#headerTbl').DataTable( {
+        "dom": '<"tbl-toolbar-right">rt',
+        "ordering": false
+    });
+};
+
+function initCookieTbl(){
+    var emptyRowHtml = nunjucks.render("../static/partial/mapping/empty.request.keyvalue.vm", {withType: false});
+    $('#cookieTbl tbody').append(emptyRowHtml);
+
+    $('#cookieTbl').DataTable( {
+        "dom": '<"tbl-toolbar-right">rt',
+        "ordering": false
+    });
+};
+
+function addEmptyRow(btnObj, withType) {
+    var curRow = $(btnObj).parentsUntil('tbody', "tr");
+    var emptyRowHtml = nunjucks.render("../static/partial/mapping/empty.request.keyvalue.vm", {"withType": withType});
+    curRow.after(emptyRowHtml);
+};
+
+function removeCurRow(btnObj) {
+    var curRow = $(btnObj).parentsUntil('tbody', "tr");
+    curRow.remove();
+};
 
 ;(function(document, window){
     $(document).ready(function(){
         initMappingTbl();
 
         initMockParamTbl();
+        initHeaderTbl();
+        initCookieTbl();
     });
 })(document, window);

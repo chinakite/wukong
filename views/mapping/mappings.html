@@ -139,6 +139,8 @@
                                 </li>
                                 <li id="responseTab" role="presentation"><a href="#tab_content4" role="tab" id="response-tab" data-toggle="tab" aria-expanded="true">Response</a>
                                 </li>
+                                <li id="cookieTab" role="presentation"><a href="#tab_content5" role="tab" id="cookie-tab" data-toggle="tab" aria-expanded="true">Cookies</a>
+                                </li>
                             </ul>
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="params-tab">
@@ -167,12 +169,29 @@
                                     </table>
                                 </div>
                                 <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="body-tab">
-
+                                    <div>
+                                        <div class="iradio_flat-green checked" style="position: relative;"><input type="radio" class="flat" name="gender" id="genderM" value="M" checked="" required="" data-parsley-multiple="gender" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                        Raw
+                                        <div class="iradio_flat-green checked" style="position: relative;"><input type="radio" class="flat" name="gender" id="genderM" value="M" checked="" required="" data-parsley-multiple="gender" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                        Form-data
+                                    </div>
                                 </div>
                                 <div role="tabpanel" class="tab-pane fade" id="tab_content4" aria-labelledby="response-tab">
                                     <pre id="responseContent">
 
                                     </pre>
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade" id="tab_content5" aria-labelledby="cookie-tab">
+                                    <table id="cookieTbl" class="table table-striped table-bordered">
+                                        <thead>
+                                            <th></th>
+                                            <th>Key</th>
+                                            <th>Value</th>
+                                        </thead>
+                                        <tbody>
+
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -216,4 +235,6 @@
 <!-- Page Style -->
 <link href="/static/css/json.highlight.css" rel="stylesheet">
 <link href="/static/css/mappings.mgr.css" rel="stylesheet">
+<!-- iCheck -->
+<link href="/static/plugins/iCheck/skins/flat/green.css" rel="stylesheet">
 {% endblock %}
