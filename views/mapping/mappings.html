@@ -169,11 +169,57 @@
                                     </table>
                                 </div>
                                 <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="body-tab">
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" class="flat" name="postType" id="postTypeXwww" value="0" checked="" required />&nbsp;x-www-form-urlencoded&nbsp;
+                                        </label>
+                                        <label>
+                                            <input type="radio" class="flat" name="postType" id="postTypeFormData" value="1" required />&nbsp;form-data&nbsp;
+                                        </label>
+                                        <label>
+                                            <input type="radio" class="flat" name="postType" id="postTypeRaw" value="2" required />&nbsp;raw&nbsp;
+                                        </label>
+                                        <label>
+                                            <input type="radio" class="flat" name="postType" id="postTypeBinary" value="3" required />&nbsp;binary&nbsp;
+                                        </label>
+                                        <label id="rawType" class="pull-right" style="display: none;">
+                                            <select id="rawTypeSelect" class="form-control">
+                                                <option>application/json</option>
+                                                <option>application/xml</option>
+                                            </select>
+                                        </label>
+                                    </div>
                                     <div>
-                                        <div class="iradio_flat-green checked" style="position: relative;"><input type="radio" class="flat" name="gender" id="genderM" value="M" checked="" required="" data-parsley-multiple="gender" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
-                                        Raw
-                                        <div class="iradio_flat-green checked" style="position: relative;"><input type="radio" class="flat" name="gender" id="genderM" value="M" checked="" required="" data-parsley-multiple="gender" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
-                                        Form-data
+                                        <div id="xwwwBody">
+                                            <table id="xwwwTbl" class="table table-striped table-bordered">
+                                                <thead>
+                                                    <th></th>
+                                                    <th>Key</th>
+                                                    <th>Value</th>
+                                                </thead>
+                                                <tbody>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div id="formDataBody" style="display:none;">
+                                            <table id="formDataTbl" class="table table-striped table-bordered">
+                                                <thead>
+                                                    <th></th>
+                                                    <th>Key</th>
+                                                    <th>Value</th>
+                                                </thead>
+                                                <tbody>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div id="rawBody" style="display:none;">
+                                            <textarea class="form-control" rows="6"></textarea>
+                                        </div>
+                                        <div id="binaryBody" style="display:none;">
+                                            <input type="file"/>
+                                        </div>
                                     </div>
                                 </div>
                                 <div role="tabpanel" class="tab-pane fade" id="tab_content4" aria-labelledby="response-tab">
@@ -211,7 +257,8 @@
 <!-- Datatables -->
 <script src="/static/plugins/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="/static/plugins/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-
+<!-- iCheck -->
+<script src="/static/plugins/iCheck/icheck.min.js"></script>
 <!-- Nunjucks -->
 <script src="/static/plugins/nunjucks/nunjucks.min.js"></script>
 <!-- Base64 -->

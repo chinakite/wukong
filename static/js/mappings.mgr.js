@@ -212,6 +212,29 @@ function removeCurRow(btnObj) {
     curRow.remove();
 };
 
+function toggleBodyContent(event) {
+    var radioBtn = $(event.target);
+    var radioValue = radioBtn.val();
+
+    if(radioValue == 0) {
+        $('#xwwwBody').show();
+        $('#rawType').hide();
+        $('#xwwwBody').siblings().hide();
+    }else if(radioValue == 1) {
+        $('#formDataBody').show();
+        $('#rawType').hide();
+        $('#formDataBody').siblings().hide();
+    }else if(radioValue == 2) {
+        $('#rawBody').show();
+        $('#rawType').show();
+        $('#rawBody').siblings().hide();
+    }else if(radioValue == 3) {
+        $('#binaryBody').show();
+        $('#rawType').hide();
+        $('#binaryBody').siblings().hide();
+    }
+}
+
 ;(function(document, window){
     $(document).ready(function(){
         initMappingTbl();
@@ -219,5 +242,7 @@ function removeCurRow(btnObj) {
         initMockParamTbl();
         initHeaderTbl();
         initCookieTbl();
+
+        $("input[name=postType]").on("ifChecked", toggleBodyContent);
     });
 })(document, window);
