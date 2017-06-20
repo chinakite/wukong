@@ -3,6 +3,6 @@
     {% if withType %}
     <td><select class="form-control"><option>Text</option><option>File</option></select></td>
     {% endif %}
-    <td><input type="text"/></td>
+    <td><input type="text" rel="reqParamKey"/></td>
     <td><input type="text" rel="reqParam"/></td>
 </tr>
