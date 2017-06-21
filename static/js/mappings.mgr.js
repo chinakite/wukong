@@ -112,8 +112,26 @@ var MAPPING_MGR = {
             "/__man__/cookies",
             {},
             function(data) {
-                console.log(data);
+                if(data && data.length > 0) {
+                    console.log(data);
+                    var emptyRowHtml = nunjucks.render("../static/partial/mapping/cookies.keyvalue.vm", {params: data, withType: false});
+                    $('#cookieTbl tbody').empty().append(emptyRowHtml);
+                }else{
+                    var emptyRowHtml = nunjucks.render("../static/partial/mapping/empty.request.keyvalue.vm", {withType: false});
+                    $('#cookieTbl tbody').empty().append(emptyRowHtml);
+                }
                 $('#cookiesModal').modal('show');
+            }
+        );
+    },
+    saveCookie : function() {
+        var cookies = buildCookies();
+        $.post(
+            "/__man__/cookies",
+            cookies,
+            function(data) {
+                alert('保存Cookie成功');
+                $('#cookiesModal').modal('hide');
             }
         );
     }
@@ -198,9 +216,6 @@ function initHeaderTbl(){
 };
 
 function initCookieTbl(){
-    var emptyRowHtml = nunjucks.render("../static/partial/mapping/empty.request.keyvalue.vm", {withType: false});
-    $('#cookieTbl tbody').append(emptyRowHtml);
-
     $('#cookieTbl').DataTable( {
         "dom": '<"tbl-toolbar-right">rt',
         "ordering": false
@@ -283,6 +298,22 @@ function buildReqHeaders() {
         }
     }
     return reqHeader;
+}
+
+function buildCookies() {
+    var reqParamEles = $('#cookieTbl input[rel=reqParam]');
+    var cookies = {};
+    if(reqParamEles.length > 0) {
+        for(var i=0; i<reqParamEles.length; i++) {
+            var reqParamEle = $(reqParamEles[i]);
+            var paramName = reqParamEle.parentsUntil('tr').prev().find('input[rel=reqParamKey]').val();
+            var paramValue = reqParamEle.val();
+            if(paramName) {
+                cookies[paramName] = paramValue;
+            }
+        }
+    }
+    return cookies;
 }
 
 ;(function(document, window){

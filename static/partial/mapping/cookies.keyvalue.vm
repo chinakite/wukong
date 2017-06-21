@@ -1,0 +1,7 @@
+{% for param in params %}
+<tr>
+    <td><a class="btn btn-xs" onclick="addEmptyRow(this, {{withType}});"><i class="fa fa-plus"></i></a><a class="btn btn-xs" onclick="removeCurRow(this);"><i class="fa fa-minus"></i></a></td>
+    <td><input type="text" rel="reqParamKey" value="{{param.name}}"/></td>
+    <td><input type="text" rel="reqParam" value="{{param.value}}"/></td>
+</tr>
+{% endfor %}
