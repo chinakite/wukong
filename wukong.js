@@ -32,7 +32,7 @@ function startup() {
 
 	//2. Load defined data set
 	logger.info("Loading defined datas ... ");
-	let dataCount = dataset.loadDatas(config, dataSet);
+	let dataCount = dataset.loadDatas(config);
 	logger.info("%d data definitions are loaded. ", dataCount);
 
 	//3. Load data templates
@@ -74,6 +74,7 @@ app.use(async (ctx, next) => {
 	if(url.startsWith('/__man__')) {   //route management url
 		await next();
 	}else{     //route mock data url
+		let dataSet  = dataset.getDataSet(); 
 		let mappings = mapping.getMappings();
 
 		let mappingDef = mappings[url][reqMethod];
