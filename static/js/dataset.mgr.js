@@ -10,7 +10,17 @@ var DATASET_MGR = {
             }
         );
     },
-
+    editData: function(dataKey){
+        dataKey = Base64.encode(dataKey);
+        $.get(
+            "/__man__/data/"+dataKey,
+            {},
+            function(data) {
+                $('#dataViewer').hide();
+                $('#dataEditor').val(data).show();
+            }
+        );
+    },
     initDataSetTbl : function() {
         $.get(
             "/__man__/dataset",

@@ -48,9 +48,10 @@
             <div class="modal-body">
                 <div id="dataViewer">
                 </div>
-                <textarea id="dataEditor" style="display:none;"></textarea>
+                <textarea id="dataEditor"></textarea>
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-primary pull-left">Edit</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" onclick="MAPPING_MGR.saveCookie();">Save</button>
             </div>
@@ -89,8 +90,9 @@
 <link href="/static/plugins/pnotify/dist/pnotify.nonblock.css" rel="stylesheet">
 <!-- JsonView -->
 <link href="/static/plugins/json-view/css/jquery.json-view.min.css" rel="stylesheet">
-<!-- Page Style -->
-
 <!-- iCheck -->
 <link href="/static/plugins/iCheck/skins/flat/green.css" rel="stylesheet">
+
+<!-- Page Style -->
+<link href="/static/css/dataset.mgr.css" rel="stylesheet">
 {% endblock %}
