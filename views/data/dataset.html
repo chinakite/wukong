@@ -46,14 +46,16 @@
                 <h4 id="dataKeyTitle" class="modal-title">Data</h4>
             </div>
             <div class="modal-body">
+                <input id="dataKeyInput" type="hidden"/>
+                <input id="currentData" type="hidden"/>
                 <div id="dataViewer">
                 </div>
                 <textarea id="dataEditor"></textarea>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary pull-left">Edit</button>
+                <button id="editDataBtn" type="button" class="btn btn-primary pull-left" onclick="DATASET_MGR.editOrCancelData();">Edit</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="MAPPING_MGR.saveCookie();">Save</button>
+                <button id="saveDataBtn" type="button" class="btn btn-primary" style="display: none;" onclick="DATASET_MGR.saveData();">Save</button>
             </div>
         </div>
     </div>

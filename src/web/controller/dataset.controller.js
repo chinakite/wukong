@@ -6,7 +6,7 @@ const logger        = require('../../log/log');
 
 let dataMgr = async (ctx, next) => {
     var name = ctx.params.name;
-    ctx.render('data/data.html', {});
+    ctx.render('data/dataset.html', {});
 };
 
 let loadDatas = async (ctx, next) => {
@@ -46,8 +46,25 @@ let loadData = async (ctx, next) => {
 	ctx.response.body = allData[dataKey];
 };
 
+let saveData = async (ctx, next) => {
+    let allData = dataset.getDataSet();
+
+	let dataKey = ctx.params.dataKey;
+	dataKey = Base64.decode(dataKey);
+
+    //TODO: Need validation;
+	let postData = ctx.request.body;
+	allData[dataKey] = postData;
+
+	ctx.response.set({
+		'Cache-Control': 'no-cache'
+	});
+	ctx.response.body = 'true';
+};
+
 module.exports = {
     'GET /__man__/datamgr' : dataMgr,
     'GET /__man__/dataset' : loadDatas,
-    'GET /__man__/data/:dataKey' : loadData
+    'GET /__man__/data/:dataKey' : loadData,
+    'POST /__man__/data/:dataKey': saveData
 };

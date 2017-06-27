@@ -1,23 +1,57 @@
+var datasetTbl;
+
 var DATASET_MGR = {
     viewData: function(dataKey){
+        $('#dataKeyInput').val(dataKey);
+        $('#dataKeyTitle').text(dataKey);
         dataKey = Base64.encode(dataKey);
         $.get(
             "/__man__/data/"+dataKey,
             {},
             function(data) {
+                $('#currentData').data('curData', data);
                 $('#dataViewer').empty().jsonView(JSON.stringify(data));
                 $('#dataModal').modal('show');
             }
         );
     },
-    editData: function(dataKey){
+    editOrCancelData: function(){
+        var editing = $('#editDataBtn').data('editing');
+        if(editing) {
+            var data = $('#dataEditor').val();
+            $('#currentData').data('curData', JSON.parse(data));
+            $('#dataEditor').hide();
+            $('#dataViewer').empty().jsonView(data).show();
+            $('#editDataBtn').data('editing', false).text('Edit');
+            $('#saveDataBtn').hide();
+        }else{
+            var data = $('#currentData').data('curData');
+            $('#dataViewer').hide();
+            $('#dataEditor').val(JSON.stringify(data, null, 4)).show();
+            $('#editDataBtn').data('editing', true).text('Cancel');
+            $('#saveDataBtn').show();
+        }
+    },
+    saveData : function() {
+        var data = $('#dataEditor').val();
+        data = JSON.parse(data);
+        var dataKey = $('#dataKeyInput').val();
         dataKey = Base64.encode(dataKey);
-        $.get(
-            "/__man__/data/"+dataKey,
-            {},
+        $.post(
+            "/__man__/data/" + dataKey,
+            data,
             function(data) {
-                $('#dataViewer').hide();
-                $('#dataEditor').val(data).show();
+                new PNotify({
+                    title: 'Success',
+                    text: 'Mapping info is saved successfully.',
+                    type: 'success',
+                    styling: 'bootstrap3',
+                    delay: 1500,
+                    stack: {"dir1": "down", "dir2": "left", "push": "bottom", "spacing1": 25, "spacing2": 25, "context": $("body"), "modal": false}
+                });
+                $('#dataModal').modal('hide');
+                datasetTbl.api().clear().draw();
+                DATASET_MGR.initDataSetTbl();
             }
         );
     },
@@ -26,7 +60,7 @@ var DATASET_MGR = {
             "/__man__/dataset",
             {},
             function(data) {
-                mappingTbl = $('#datasetTbl').dataTable({
+                datasetTbl = $('#datasetTbl').dataTable({
                     data : data,
                     paging : true,
                     destroy : true,
