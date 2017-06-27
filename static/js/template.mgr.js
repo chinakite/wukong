@@ -1,16 +1,16 @@
-var datasetTbl;
+var templateTbl;
 
-var DATASET_MGR = {
-    viewData: function(dataKey){
+var TEMPLATE_MGR = {
+    viewTemplate: function(dataKey){
         $('#dataKeyInput').val(dataKey);
         $('#dataKeyTitle').text(dataKey);
         dataKey = Base64.encode(dataKey);
         $.get(
-            "/__man__/data/"+dataKey,
+            "/__man__/template/"+dataKey,
             {},
             function(data) {
-                DATASET_MGR.initViewerState(data);
-                $('#dataModal').modal('show');
+                TEMPLATE_MGR.initViewerState(data);
+                $('#templateModal').modal('show');
             }
         );
     },
@@ -21,12 +21,12 @@ var DATASET_MGR = {
         $('#dataEditor').hide();
         $('#saveDataBtn').hide();
     },
-    editOrCancelData: function(){
+    editOrCancelTemplate: function(){
         var editing = $('#editDataBtn').data('editing');
         if(editing) {
             var data = $('#dataEditor').val();
             data = JSON.parse(data);
-            DATASET_MGR.initViewerState(data);
+            TEMPLATE_MGR.initViewerState(data);
         }else{
             var data = $('#currentData').data('curData');
             $('#dataViewer').hide();
@@ -35,35 +35,35 @@ var DATASET_MGR = {
             $('#saveDataBtn').show();
         }
     },
-    saveData : function() {
+    saveTemplate : function() {
         var data = $('#dataEditor').val();
         data = JSON.parse(data);
         var dataKey = $('#dataKeyInput').val();
         dataKey = Base64.encode(dataKey);
         $.post(
-            "/__man__/data/" + dataKey,
+            "/__man__/template/" + dataKey,
             data,
             function(data) {
                 new PNotify({
                     title: 'Success',
-                    text: 'Data is saved successfully.',
+                    text: 'Template is saved successfully.',
                     type: 'success',
                     styling: 'bootstrap3',
                     delay: 1500,
                     stack: {"dir1": "down", "dir2": "left", "push": "bottom", "spacing1": 25, "spacing2": 25, "context": $("body"), "modal": false}
                 });
-                $('#dataModal').modal('hide');
-                datasetTbl.api().clear().draw();
-                DATASET_MGR.initDataSetTbl();
+                $('#templateModal').modal('hide');
+                templateTbl.api().clear().draw();
+                TEMPLATE_MGR.initTemplateTbl();
             }
         );
     },
-    initDataSetTbl : function() {
+    initTemplateTbl : function() {
         $.get(
-            "/__man__/dataset",
+            "/__man__/templates",
             {},
             function(data) {
-                datasetTbl = $('#datasetTbl').dataTable({
+                templateTbl = $('#templateTbl').dataTable({
                     data : data,
                     paging : true,
                     destroy : true,
@@ -83,8 +83,8 @@ var DATASET_MGR = {
                             "searchable": false,
                             "orderable": false,
                             "render": function ( data, type, full, meta ) {
-                                var optHtml = '<a class="btn btn-xs btn-info" title="Edit" onclick="DATASET_MGR.viewData(\'' + full.dataKey + '\')"><i class="fa fa-edit"></i></a>'
-                                            + '<a class="btn btn-xs btn-danger" title="Remove" onclick="DATASET_MGR.removeData(\'' + full.dataKey + '\')"><i class="fa fa-trash-o"></i></a>'
+                                var optHtml = '<a class="btn btn-xs btn-info" title="Edit" onclick="TEMPLATE_MGR.viewTemplate(\'' + full.dataKey + '\')"><i class="fa fa-edit"></i></a>'
+                                            + '<a class="btn btn-xs btn-danger" title="Remove" onclick="TEMPLATE_MGR.removetemplate(\'' + full.dataKey + '\')"><i class="fa fa-trash-o"></i></a>'
                                             ;
                                 return optHtml;
                             }
@@ -98,6 +98,6 @@ var DATASET_MGR = {
 
 ;(function(document, window){
     $(document).ready(function(){
-        DATASET_MGR.initDataSetTbl();
+        TEMPLATE_MGR.initTemplateTbl();
     });
 })(document, window);

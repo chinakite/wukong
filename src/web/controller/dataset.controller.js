@@ -5,8 +5,7 @@ const logger        = require('../../log/log');
 
 
 let dataMgr = async (ctx, next) => {
-    var name = ctx.params.name;
-    ctx.render('data/dataset.html', {});
+    ctx.render('dataset/dataset.html', {});
 };
 
 let loadDatas = async (ctx, next) => {

@@ -7,6 +7,7 @@ const ruleParser = require("../rule/rule.parser");
 const logger        = require('../log/log');
 
 let _tmplSet  = {};		//store templates
+let _tmplDefs = {};
 
 function loadTemplates(config) {
     let tmplCount = 0;
@@ -48,6 +49,7 @@ function parseTemplates(filepath) {
         let tmplDef = data[name];
         let tmplDesc = ruleParser.parseDataTmpl(tmplDef);
         _tmplSet[name] = tmplDesc;
+        _tmplDefs[name] = tmplDef;
         count++;
     }
 
@@ -59,6 +61,7 @@ function removeTemplates(filepath){
     let data = require(filepath);
     for(let name in data) {
         delete _tmplSet[name];
+        delete _tmplDefs[name];
         count++;
     }
     return count;
@@ -100,8 +103,13 @@ function setTmplSet(tmplSet) {
     _tmplSet = tmplSet;
 }
 
+function getTmplDefs(){
+    return _tmplDefs;
+}
+
 module.exports = {
     "loadTemplates" : loadTemplates,
     "getTmplSet" : getTmplSet,
-    "setTmplSet" : setTmplSet
+    "setTmplSet" : setTmplSet,
+    "getTmplDefs": getTmplDefs
 }
