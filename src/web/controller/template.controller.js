@@ -3,10 +3,22 @@ const Base64        = require('js-base64').Base64;
 
 const logger        = require('../../log/log');
 
-
 let templateMgr = async (ctx, next) => {
     ctx.render('template/template.html', {});
 };
+
+let countTemplates = async (ctx, next) => {
+    let allTemplates = template.getTmplDefs();
+    let count = 0;
+	for(let dataKey in allTemplates) {
+        count++;
+    }
+    ctx.response.set({
+		"Content-Type": "text/html",
+		'Cache-Control': 'no-cache'
+	});
+	ctx.response.body = count;
+}
 
 let loadTemplates = async (ctx, next) => {
 	let result = [];
@@ -64,6 +76,7 @@ let saveTemplate = async (ctx, next) => {
 module.exports = {
     'GET /__man__/templatemgr' : templateMgr,
     'GET /__man__/templates' : loadTemplates,
+    'GET /__man__/templates/count' : countTemplates,
     'GET /__man__/template/:dataKey' : loadTemplate,
     'POST /__man__/template/:dataKey': saveTemplate
 };

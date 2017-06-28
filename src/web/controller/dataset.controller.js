@@ -8,6 +8,19 @@ let dataMgr = async (ctx, next) => {
     ctx.render('dataset/dataset.html', {});
 };
 
+let countDatas = async (ctx, next) => {
+    let allData = dataset.getDataSet();
+    let count = 0;
+	for(let dataKey in allData) {
+        count++;
+    }
+    ctx.response.set({
+		"Content-Type": "text/html",
+		'Cache-Control': 'no-cache'
+	});
+	ctx.response.body = count;
+}
+
 let loadDatas = async (ctx, next) => {
 	let result = [];
 
@@ -64,6 +77,7 @@ let saveData = async (ctx, next) => {
 module.exports = {
     'GET /__man__/datamgr' : dataMgr,
     'GET /__man__/dataset' : loadDatas,
+    'GET /__man__/dataset/count' : countDatas,
     'GET /__man__/data/:dataKey' : loadData,
     'POST /__man__/data/:dataKey': saveData
 };

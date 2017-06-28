@@ -8,6 +8,20 @@ let mappingMgr = async (ctx, next) => {
     ctx.render('mapping/mappings.html', {});
 };
 
+let countMappings = async (ctx, next) => {
+    let mappings = mapping.getMappings();
+    let count = 0;
+    for(let api in mappings) {
+        count++;
+    }
+    ctx.response.set({
+        "Content-Type": "text/html",
+        'Cache-Control': 'no-cache'
+    });
+    logger.debug("return " + count);
+    ctx.response.body = count;
+};
+
 let loadMappings = async (ctx, next) => {
 	let result = [];
 
@@ -79,5 +93,6 @@ module.exports = {
     'GET /__man__/mappingmgr' : mappingMgr,
     'GET /__man__/mappings' : loadMappings,
     'GET /__man__/mapping/:key' : loadMapping,
-    'POST /__man__/mapping/:key' : saveMapping
+    'POST /__man__/mapping/:key' : saveMapping,
+    'GET /__man__/mappings/count': countMappings
 };

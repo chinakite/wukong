@@ -71,10 +71,10 @@ app.use(async (ctx, next) => {
 		url = url.substring(0, url.length-1);
 	}
 
-	if(url.startsWith('/__man__')) {   //route management url
+	if(url == '/' || url.startsWith('/__man__')) {   //route management url
 		await next();
 	}else{     //route mock data url
-		let dataSet  = dataset.getDataSet(); 
+		let dataSet  = dataset.getDataSet();
 		let mappings = mapping.getMappings();
 
 		let mappingDef = mappings[url][reqMethod];
