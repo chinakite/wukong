@@ -1,0 +1,143 @@
+{% extends "layout/main_layout.html" %} {% block content %}
+<div class="">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>Library</h3>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="" role="tabpanel" data-example-id="togglable-tabs">
+        <ul id="libTab" class="nav nav-tabs bar_tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#tab_global" id="global-tab" role="tab" data-toggle="tab" aria-expanded="true">Global</a>
+            </li>
+            <li role="presentation" class=""><a href="#tab_customize" role="tab" id="customize-tab" data-toggle="tab" aria-expanded="false">Customize</a>
+            </li>
+        </ul>
+        <div id="libTabContent" class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="tab_global" aria-labelledby="global-tab">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Global Library Table</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <p class="text-muted font-13 m-b-30">
+                            Global library shared for all users, and can not be modified.
+                        </p>
+
+                        <table id="globalLibsTbl" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="tab_customize" aria-labelledby="customize-tab">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Customize Library Table</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <p class="text-muted font-13 m-b-30">
+                            Your library. You can do everything.
+                        </p>
+
+                        <table id="customizeLibsTbl" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+
+        </div>
+    </div>
+</div>
+
+<div id="dataModal" class="modal fade in" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+                <h4 id="dataKeyTitle" class="modal-title">Data</h4>
+            </div>
+            <div class="modal-body">
+                <input id="dataKeyInput" type="hidden"/>
+                <input id="currentData" type="hidden"/>
+                <div id="dataViewer">
+                </div>
+                <textarea id="dataEditor"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button id="editDataBtn" type="button" class="btn btn-primary pull-left" onclick="DATASET_MGR.editOrCancelData();">Edit</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button id="saveDataBtn" type="button" class="btn btn-primary" style="display: none;" onclick="DATASET_MGR.saveData();">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<!-- Datatables -->
+<script src="/static/plugins/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="/static/plugins/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<!-- iCheck -->
+<script src="/static/plugins/iCheck/icheck.min.js"></script>
+<!-- Nunjucks -->
+<script src="/static/plugins/nunjucks/nunjucks.min.js"></script>
+<!-- Base64 -->
+<script src="/static/plugins/base64/base64.min.js"></script>
+<!-- PNotify -->
+<script src="/static/plugins/pnotify/dist/pnotify.js"></script>
+<script src="/static/plugins/pnotify/dist/pnotify.buttons.js"></script>
+<script src="/static/plugins/pnotify/dist/pnotify.nonblock.js"></script>
+<!-- JsonView -->
+<script src="/static/plugins/json-view/js/jquery.json-view.min.js"></script>
+
+<!-- Page Script -->
+<script src="/static/js/library.mgr.js"></script>
+{% endblock %}
+
+{% block style %}
+<!-- Datatables -->
+<link href="/static/plugins/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+<!-- PNotify -->
+<link href="/static/plugins/pnotify/dist/pnotify.css" rel="stylesheet">
+<link href="/static/plugins/pnotify/dist/pnotify.buttons.css" rel="stylesheet">
+<link href="/static/plugins/pnotify/dist/pnotify.nonblock.css" rel="stylesheet">
+<!-- JsonView -->
+<link href="/static/plugins/json-view/css/jquery.json-view.min.css" rel="stylesheet">
+<!-- iCheck -->
+<link href="/static/plugins/iCheck/skins/flat/green.css" rel="stylesheet">
+
+<!-- Page Style -->
+<link href="/static/css/library.mgr.css" rel="stylesheet">
+{% endblock %}
