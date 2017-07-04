@@ -1,3 +1,26 @@
 #libTabContent {
     margin-top : -15px;
 }
+
+pre {
+    counter-reset: line;
+    height: 340px;
+    overflow: auto;
+}
+
+pre span {
+  display: block;
+  line-height: 1.5rem;
+}
+
+pre span:before {
+  counter-increment: line;
+  content: counter(line);
+  display: inline-block;
+  border-right: 1px solid #ddd;
+  padding: 0 .5em;
+  margin-right: .5em;
+  color: #888;
+  min-width: 30px;
+  text-align: right;
+}

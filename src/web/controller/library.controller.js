@@ -1,5 +1,6 @@
 const logger        = require('../../log/log');
 const config        = require('../../../wukong.config');
+const Base64        = require('js-base64').Base64;
 
 const fs            = require('fs');
 
@@ -27,6 +28,23 @@ let globalLibs = async (ctx, next) => {
 	ctx.response.body = result;
 };
 
+let loadGlobalLib = async (ctx, next) => {
+    logger.debug("GET /__man__/globallib/:name entry");
+
+    let libPath = config.storage.libPath;
+    let name = ctx.params.name;
+	name = Base64.decode(name);
+    let filePath = libPath + "/" + name + ".wk72";
+    let result = readLibFile(filePath);
+
+	ctx.response.set({
+		"Content-Type": "text/html",
+		'Cache-Control': 'no-cache'
+	});
+    logger.debug("return " + result);
+	ctx.response.body = result;
+};
+
 let myLibs = async (ctx, next) => {
     logger.debug("GET /__man__/mylibs");
 
@@ -48,6 +66,23 @@ let myLibs = async (ctx, next) => {
 	ctx.response.body = result;
 };
 
+let loadMyLib = async (ctx, next) => {
+    logger.debug("GET /__man__/mylib/:name entry");
+
+    let libPath = config.storage.mylibPath;
+    let name = ctx.params.name;
+	name = Base64.decode(name);
+    let filePath = libPath + "/" + name + ".wk72";
+    let result = readLibFile(filePath);
+
+	ctx.response.set({
+		"Content-Type": "text/html",
+		'Cache-Control': 'no-cache'
+	});
+    logger.debug("return " + result);
+	ctx.response.body = result;
+};
+
 let readLibFiles = function(libPath, result) {
     let files = fs.readdirSync(libPath);
     files.forEach(function(file){
@@ -59,8 +94,14 @@ let readLibFiles = function(libPath, result) {
     });
 }
 
+let readLibFile = function(filePath) {
+    return fs.readFileSync(filePath).toString();
+}
+
 module.exports = {
     'GET /__man__/libmgr' : libMgr,
     'GET /__man__/globallibs' : globalLibs,
-    'GET /__man__/mylibs' : myLibs
+    'GET /__man__/globallib/:name' : loadGlobalLib,
+    'GET /__man__/mylibs' : myLibs,
+    'GET /__man__/mylib/:name' : loadMyLib
 };

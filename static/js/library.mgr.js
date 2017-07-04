@@ -2,60 +2,37 @@ var globalLibsTbl;
 var customizeLibsTbl;
 
 var LIBRARY_MGR = {
-    viewData: function(dataKey){
-        $('#dataKeyInput').val(dataKey);
-        $('#dataKeyTitle').text(dataKey);
-        dataKey = Base64.encode(dataKey);
+    viewGlobalLib: function(name){
+        $('#libFileTitle').text(name);
+        name = Base64.encode(name);
         $.get(
-            "/__man__/data/"+dataKey,
+            "/__man__/globallib/"+name,
             {},
             function(data) {
-                DATASET_MGR.initViewerState(data);
-                $('#dataModal').modal('show');
+                var arr = data.split("\n");
+                var str = '';
+                for(var i=0; i<arr.length; i++) {
+                    str = str + "<span>" + arr[i] + "</span>";
+                }
+                $('#dataViewer pre').html(str);
+                $('#libFileModal').modal('show');
             }
         );
     },
-    initViewerState: function(data) {
-        $('#editDataBtn').data('editing', false).text('Edit');
-        $('#currentData').data('curData', data);
-        $('#dataViewer').empty().jsonView(JSON.stringify(data)).show();
-        $('#dataEditor').hide();
-        $('#saveDataBtn').hide();
-    },
-    editOrCancelData: function(){
-        var editing = $('#editDataBtn').data('editing');
-        if(editing) {
-            var data = $('#dataEditor').val();
-            data = JSON.parse(data);
-            DATASET_MGR.initViewerState(data);
-        }else{
-            var data = $('#currentData').data('curData');
-            $('#dataViewer').hide();
-            $('#dataEditor').val(JSON.stringify(data, null, 4)).show();
-            $('#editDataBtn').data('editing', true).text('Cancel');
-            $('#saveDataBtn').show();
-        }
-    },
-    saveData : function() {
-        var data = $('#dataEditor').val();
-        data = JSON.parse(data);
-        var dataKey = $('#dataKeyInput').val();
-        dataKey = Base64.encode(dataKey);
-        $.post(
-            "/__man__/data/" + dataKey,
-            data,
+    viewCustomizeLib: function(name) {
+        $('#libFileTitle').text(name);
+        name = Base64.encode(name);
+        $.get(
+            "/__man__/mylib/"+name,
+            {},
             function(data) {
-                new PNotify({
-                    title: 'Success',
-                    text: 'Data is saved successfully.',
-                    type: 'success',
-                    styling: 'bootstrap3',
-                    delay: 1500,
-                    stack: {"dir1": "down", "dir2": "left", "push": "bottom", "spacing1": 25, "spacing2": 25, "context": $("body"), "modal": false}
-                });
-                $('#dataModal').modal('hide');
-                datasetTbl.api().clear().draw();
-                DATASET_MGR.initDataSetTbl();
+                var arr = data.split("\n");
+                var str = '';
+                for(var i=0; i<arr.length; i++) {
+                    str = str + "<span>" + arr[i] + "</span>";
+                }
+                $('#dataViewer pre').html(str);
+                $('#libFileModal').modal('show');
             }
         );
     },
@@ -84,7 +61,7 @@ var LIBRARY_MGR = {
                             "searchable": false,
                             "orderable": false,
                             "render": function ( data, type, full, meta ) {
-                                var optHtml = '<a class="btn btn-xs btn-info" title="Edit" onclick="DATASET_MGR.viewData(\'' + full.name + '\')"><i class="fa fa-edit"></i></a>'
+                                var optHtml = '<a class="btn btn-xs btn-info" title="Edit" onclick="LIBRARY_MGR.viewGlobalLib(\'' + full.name + '\')"><i class="fa fa-edit"></i></a>'
                                             + '<a class="btn btn-xs btn-danger" title="Remove" onclick="DATASET_MGR.removeData(\'' + full.name + '\')"><i class="fa fa-trash-o"></i></a>'
                                             ;
                                 return optHtml;
@@ -120,7 +97,7 @@ var LIBRARY_MGR = {
                             "searchable": false,
                             "orderable": false,
                             "render": function ( data, type, full, meta ) {
-                                var optHtml = '<a class="btn btn-xs btn-info" title="Edit" onclick="DATASET_MGR.viewData(\'' + full.name + '\')"><i class="fa fa-edit"></i></a>'
+                                var optHtml = '<a class="btn btn-xs btn-info" title="Edit" onclick="LIBRARY_MGR.viewCustomizeLib(\'' + full.name + '\')"><i class="fa fa-edit"></i></a>'
                                             + '<a class="btn btn-xs btn-danger" title="Remove" onclick="DATASET_MGR.removeData(\'' + full.name + '\')"><i class="fa fa-trash-o"></i></a>'
                                             ;
                                 return optHtml;
