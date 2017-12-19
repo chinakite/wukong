@@ -28,7 +28,7 @@
     "randexp": "^0.4.5",
     "random-js": "^1.0.8",
     "request": "^2.81.0",
-    "sequelize": "^4.28.5",
+    "sequelize": "^4.28.6",
     "tracer": "^0.8.7"
   },
   "devDependencies": {
