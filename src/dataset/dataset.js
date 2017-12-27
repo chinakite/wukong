@@ -2,6 +2,7 @@ const fs     = require('fs');
 const gaze   = require('gaze');
 
 const logger        = require('../log/log');
+const dataSetDao    = require('./mysql/dataset.dao');
 
 let _dataSet  = {};		//store data
 
@@ -31,7 +32,13 @@ function loadDatas(config) {
 			});
 		}
         watchDataSet(datasDir, _dataSet);
-	}
+	}else if(storageConfig.engine == 'mysql'){
+        dataSetDao.findAll().then(function(datasets){
+            for(let i=0; i<datasets.length; i++) {
+                console.log(JSON.parse(JSON.stringify(datasets[i])));
+            }
+        });
+    }
 
     return dataDefCount;
 }
