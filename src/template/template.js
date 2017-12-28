@@ -44,7 +44,9 @@ function loadTemplates(config) {
             for(let i=0; i<templates.length; i++) {
                 var dbTemplate = JSON.parse(JSON.stringify(templates[i]));
                 var tmpl = JSON.parse(dbTemplate.tmpl);
-                _tmplSet[dbTemplate.name] = tmpl;
+                let tmplDesc = ruleParser.parseDataTmpl(tmpl);
+                _tmplSet[dbTemplate.name] = tmplDesc;
+                _tmplDefs[dbTemplate.name] = tmpl;
             }
             logger.info("%d templates are loaded. ", tmplCount);
         });
