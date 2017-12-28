@@ -5,18 +5,19 @@ const ruleEngine = require('../rule/rule.engine');
 const ruleParser = require("../rule/rule.parser");
 
 const logger        = require('../log/log');
+const templateMysqlDao    = require('./mysql/template.dao');
 
 let _tmplSet  = {};		//store templates
 let _tmplDefs = {};
 
 function loadTemplates(config) {
+    logger.info("Loading templates ... ");
     let tmplCount = 0;
 
     let storageConfig = config.storage;
 
-	let tmplsDir;
 	if(storageConfig.engine == 'fs') {
-		tmplsDir = storageConfig.tmplPath;
+        let tmplsDir = storageConfig.tmplPath;
 		if(Array.isArray(tmplsDir)){
 			tmplsDir.forEach(function(value, index){
 				var dir = process.cwd() + '/' + value;
@@ -30,15 +31,24 @@ function loadTemplates(config) {
 
 				// 处理每个js文件:
 				for (var file of tmplFiles) {
-                    tmplCount += parseTemplates(dir + '/' + file, _tmplSet);
+                    tmplCount += parseTemplates(dir + '/' + file);
 				}
 			});
 		}
 
         watchTemplates(tmplsDir, _tmplSet);
-	}
-
-    return tmplCount;
+        logger.info("%d templates are loaded. ", tmplCount);
+	}else if(storageConfig.engine == 'mysql'){
+        templateMysqlDao.findAll().then(function(templates){
+            tmplCount = templates.length;
+            for(let i=0; i<templates.length; i++) {
+                var dbTemplate = JSON.parse(JSON.stringify(templates[i]));
+                var tmpl = JSON.parse(dbTemplate.tmpl);
+                _tmplSet[dbTemplate.name] = tmpl;
+            }
+            logger.info("%d templates are loaded. ", tmplCount);
+        });
+    }
 }
 
 function parseTemplates(filepath) {

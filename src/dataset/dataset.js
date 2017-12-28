@@ -2,17 +2,17 @@ const fs     = require('fs');
 const gaze   = require('gaze');
 
 const logger        = require('../log/log');
-const dataSetDao    = require('./mysql/dataset.dao');
+const dataSetMysqlDao    = require('./mysql/dataset.dao');
 
 let _dataSet  = {};		//store data
 
 function loadDatas(config) {
+    logger.info("Loading defined datas ... ");
     let dataDefCount = 0;
-
     let storageConfig = config.storage;
-
-	let datasDir;
 	if(storageConfig.engine == 'fs') {
+        let datasDir;
+
 		datasDir = storageConfig.dataPath;
 		if(Array.isArray(datasDir)){
 			datasDir.forEach(function(value, index){
@@ -32,15 +32,24 @@ function loadDatas(config) {
 			});
 		}
         watchDataSet(datasDir, _dataSet);
+        logger.info("%d data definitions are loaded. ", dataDefCount);
 	}else if(storageConfig.engine == 'mysql'){
-        dataSetDao.findAll().then(function(datasets){
+        dataSetMysqlDao.findAllWithDatas().then(function(datasets){
+            dataDefCount = datasets.length;
             for(let i=0; i<datasets.length; i++) {
-                console.log(JSON.parse(JSON.stringify(datasets[i])));
+                var dbDataSet = JSON.parse(JSON.stringify(datasets[i]));
+                var data = {};
+                if(datasets[i].datas && datasets[i].datas.length > 0) {
+                    for(let j=0; j<datasets[i].datas.length; j++) {
+                        var dbDataSetData = datasets[i].datas[j];
+                        data[dbDataSetData.state] = JSON.parse(dbDataSetData.data);
+                    }
+                }
+                _dataSet[dbDataSet.name] = data;
             }
+            logger.info("%d data definitions are loaded. ", dataDefCount);
         });
     }
-
-    return dataDefCount;
 }
 
 function parseDataSet(filepath){

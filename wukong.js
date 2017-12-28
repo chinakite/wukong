@@ -31,9 +31,7 @@ function startup() {
 	logger.info("%d mappings are loaded. ", mappingCount);
 
 	//2. Load defined data set
-	logger.info("Loading defined datas ... ");
-	let dataCount = dataset.loadDatas(config);
-	logger.info("%d data definitions are loaded. ", dataCount);
+	dataset.loadDatas(config);
 
 	//3. Load data templates
 	logger.info("Loading templates ... ");
