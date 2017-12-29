@@ -2,10 +2,12 @@ const fs = require('fs');
 const gaze = require('gaze');
 
 const logger        = require('../log/log');
+const mappingMysqlDao    = require('./mysql/mapping.dao');
 
 let _mappings  = {};		//store mappings
 
 function loadMappings(config) {
+    logger.info("Loading mappings ... ");
     let count = 0;
 
     let storageConfig = config.storage;
@@ -31,6 +33,39 @@ function loadMappings(config) {
         }
 
         watchMappings(mappingsDir);
+    }else if(storageConfig.engine == 'mysql'){
+        mappingMysqlDao.findAll().then(function(mappings){
+            count = mappings.length;
+            for(let i=0; i<mappings.length; i++) {
+                var dbMapping = JSON.parse(JSON.stringify(mappings[i]));
+                let mapping = {};
+                let method;
+                mapping.url = dbMapping.url;
+                mapping.dataKey = dbMapping.dataKey;
+                mapping.type = dbMapping.type;
+                if(dbMapping.method) {
+                    mapping.method = dbMapping.method.toUpperCase();
+                    method = dbMapping.method.toUpperCase();
+                }else{
+                    mapping.method = 'GET';
+                    method = 'GET';
+                }
+                if (!(dbMapping.state)) {
+                    mapping.state = 'success';
+                }
+                if (dbMapping.count == undefined) {
+                    mapping.count = 1;
+                }
+                if(dbMapping.wrapper) {
+                    mapping.wrapper = JSON.parse(dbMapping.wrapper);
+                }
+                if(!_mappings[mapping.url]) {
+                    _mappings[mapping.url] = {};
+                }
+                _mappings[mapping.url][mapping.method] = mapping;
+            }
+            logger.info("%d mappings are loaded. ", count);
+        });
     }
 
     return count;

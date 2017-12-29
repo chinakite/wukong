@@ -26,17 +26,13 @@ let dataSet  = {};		//store defined datas
 
 function startup() {
 	//1. Load mappings.
-	logger.info("Loading mappings ... ");
-	let mappingCount = mapping.loadMappings(config);
-	logger.info("%d mappings are loaded. ", mappingCount);
+	mapping.loadMappings(config);
 
 	//2. Load defined data set
 	dataset.loadDatas(config);
 
 	//3. Load data templates
-	logger.info("Loading templates ... ");
-	let tmplCount = template.loadTemplates(config);
-	logger.info("%d templates are loaded. ", tmplCount);
+	template.loadTemplates(config);
 	let tmplSet = template.getTmplSet();
 
 	if(config.swagger && config.swagger.enabled) {
