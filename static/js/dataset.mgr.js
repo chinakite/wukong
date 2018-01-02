@@ -1,6 +1,18 @@
 var datasetTbl;
 
+var operDataKey;
+
 var DATASET_MGR = {
+    newDataInfo: function(){
+        operDataKey = '';
+        $('#dataKey').val('');
+        $('#dataInfoModal').modal('show');
+    },
+    editDataInfo: function(dataKey){
+        operDataKey = dataKey;
+        $('#dataKey').val(dataKey);
+        $('#dataInfoModal').modal('show');
+    },
     viewData: function(dataKey){
         $('#dataKeyInput').val(dataKey);
         $('#dataKeyTitle').text(dataKey);
@@ -33,6 +45,31 @@ var DATASET_MGR = {
             $('#dataEditor').val(JSON.stringify(data, null, 4)).show();
             $('#editDataBtn').data('editing', true).text('Cancel');
             $('#saveDataBtn').show();
+        }
+    },
+    saveDataInfo : function() {
+        var dataKey = $('#dataKey').val();
+        if(operDataKey && operDataKey != '') {
+            $.post(
+                '/__man__/data',
+                {
+                    "oldDataKey": operDataKey,
+                    "dataKey": dataKey
+                },
+                function(){
+
+                }
+            );
+        }else{
+            $.post(
+                '/__man__/data',
+                {
+                    "dataKey": dataKey
+                },
+                function(){
+
+                }
+            );
         }
     },
     saveData : function() {
@@ -83,7 +120,8 @@ var DATASET_MGR = {
                             "searchable": false,
                             "orderable": false,
                             "render": function ( data, type, full, meta ) {
-                                var optHtml = '<a class="btn btn-xs btn-info" title="Edit" onclick="DATASET_MGR.viewData(\'' + full.dataKey + '\')"><i class="fa fa-edit"></i></a>'
+                                var optHtml = '<a class="btn btn-xs btn-info" title="Edit" onclick="DATASET_MGR.editDataInfo(\'' + full.dataKey + '\')"><i class="fa fa-edit"></i></a>'
+                                            + '<a class="btn btn-xs btn-info" title="Data" onclick="DATASET_MGR.viewData(\'' + full.dataKey + '\')"><i class="fa fa-cube"></i></a>'
                                             + '<a class="btn btn-xs btn-danger" title="Remove" onclick="DATASET_MGR.removeData(\'' + full.dataKey + '\')"><i class="fa fa-trash-o"></i></a>'
                                             ;
                                 return optHtml;
