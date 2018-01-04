@@ -48,7 +48,21 @@ let findAllWithDatas = function() {
     });
 };
 
+let insertDataInfo = function(dataInfo, operId, options) {
+    dataInfo.creator = operId;
+    dataInfo.createTime = new Date();
+    return DataSet.create(dataInfo, options);
+};
+
+let insertData = function(data, operId, options) {
+    data.creator = operId;
+    data.createTime = new Date();
+    return DataSetData.create(data, options);
+};
+
 module.exports = {
+    "sequelize" : sequelize,
     "findAll" : findAll,
-    "findAllWithDatas" : findAllWithDatas
+    "findAllWithDatas" : findAllWithDatas,
+    "insertDataInfo" : insertDataInfo
 }

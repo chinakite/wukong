@@ -16,7 +16,7 @@ const config = {
         level : 'debug'
     },
     swagger : {
-        enabled : true,
+        enabled : false,
         apis : [
             "http://localhost:8080/v2/api-docs"
         ]
