@@ -5,8 +5,9 @@ Wukong is a mock server for frontend.
 1. Clone this repository.
 2. Open teminal
 3. Enter Wukong home directory.
-4. Run command : npm start
-5. Open browser and access demo url : http://localhost:7272/modules
+4. Run command : npm install
+5. Run command : npm start
+6. Open browser and access demo url : http://localhost:7272/modules
 
 # Configuration
 Wukong's configuration file is **wukong.config.js** which is in Wukong home directory.
